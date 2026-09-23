@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --ink: #1B1F1C;
+    --paper: #F6F4ED;
+    --paper-dim: #EBE7DA;
+    --paper-elevated: #FAF9F4;
+    --moss: #3C5434;
+    --moss-light: #527347;
+    --moss-soft: rgba(60, 84, 52, 0.08);
+    --ochre: #B87A2E;
+    --ochre-soft: rgba(184, 122, 46, 0.1);
+    --stone: #878170;
+    --stone-light: #B4AEA0;
+    --line: rgba(27, 31, 26, 0.14);
+    --line-subtle: rgba(27, 31, 26, 0.07);
+  }
+
+  .dark {
+    --ink: #EDEAE0;
+    --paper: #161812;
+    --paper-dim: #1D2118;
+    --paper-elevated: #22261C;
+    --moss: #8FAE7F;
+    --moss-light: #A4C493;
+    --moss-soft: rgba(143, 174, 127, 0.12);
+    --ochre: #D8A25C;
+    --ochre-soft: rgba(216, 162, 92, 0.12);
+    --stone: #969482;
+    --stone-light: #686657;
+    --line: rgba(237, 234, 224, 0.14);
+    --line-subtle: rgba(237, 234, 224, 0.07);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+}
+
+.font-serif-fraunces {
+  font-family: 'Fraunces', Georgia, serif;
+}
+
+.font-serif-newsreader {
+  font-family: 'Newsreader', Georgia, serif;
+}
+
+.font-sans-inter {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Subtle print styles for one-click CV PDF export */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background-color: white !important;
+    color: black !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+}
