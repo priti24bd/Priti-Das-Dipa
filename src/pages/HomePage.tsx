@@ -20,7 +20,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenResume }) => {
           {/* Portrait Photo: Public Speaking & Youth Leadership */}
           <div className="border border-slate-200 bg-slate-50 p-2 shadow-2xs">
             <img
-              src="/assets/images/youth_leadership.jpg"
+              src="/assets/images/priti_bio.jpg"
               alt="Priti Das Dipa - Public Speaking and Youth Leadership"
               className="w-full h-auto aspect-[3/4] object-cover object-top"
             />
