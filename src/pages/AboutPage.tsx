@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, GraduationCap, Award, BookOpen, Wrench, Languages } from 'lucide-react';
+import { ArrowLeft, FileText, ExternalLink } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 
 interface AboutPageProps {
@@ -9,92 +9,94 @@ interface AboutPageProps {
 
 export const AboutPage: React.FC<AboutPageProps> = ({ onOpenResume }) => {
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-14">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-12">
       
       {/* Page Header */}
-      <div>
+      <div className="space-y-3">
         <Link
           to="/"
-          className="inline-flex items-center gap-1.5 text-xs text-[var(--stone)] hover:text-[var(--moss)] transition-colors mb-6"
+          className="inline-flex items-center gap-1 text-xs text-slate-500 hover:text-slate-900 transition-colors"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Back to home</span>
+          <span>Back to About</span>
         </Link>
 
-        <p className="text-xs uppercase tracking-widest text-[var(--moss)] font-semibold mb-2">
-          Academic Journey &amp; Credentials
-        </p>
-
-        <h1 className="font-serif-fraunces text-4xl sm:text-5xl font-medium tracking-tight text-[var(--ink)] mb-4">
-          Education, honors, and skills
+        <h1 className="font-serif-newsreader text-3xl sm:text-4xl font-normal text-slate-900 tracking-tight">
+          Education, Honors &amp; Credentials
         </h1>
 
-        <p className="text-base sm:text-lg text-[var(--stone)] leading-relaxed max-w-2xl font-sans-inter">
-          A summary of my formal education, international fellowships, and the tools I use for research and building.
+        <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-sans-inter max-w-2xl">
+          Formal academic record, competitive national recognitions, international fellowships, and self-directed inquiries.
         </p>
       </div>
 
-      {/* Education Section */}
-      <section className="space-y-6">
-        <h2 className="font-serif-fraunces text-2xl font-medium text-[var(--ink)] border-b border-[var(--line)] pb-3">
+      {/* Formal Education */}
+      <section className="space-y-4">
+        <h2 className="font-serif-newsreader text-2xl font-normal text-slate-900 border-b border-slate-200 pb-2">
           Formal Education
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-6">
           {PORTFOLIO_DATA.education.map((edu, idx) => (
             <div
               key={idx}
-              className="p-6 border border-[var(--line)] bg-[var(--paper)] space-y-3"
+              className="p-6 border border-slate-200 bg-white space-y-2"
             >
-              <div className="text-xs text-[var(--moss)] font-semibold uppercase tracking-wider">
-                {edu.period}
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <h3 className="font-serif-newsreader text-xl font-semibold text-slate-900">
+                  {edu.institution}
+                </h3>
+                <span className="text-xs text-slate-500 font-mono">
+                  {edu.period}
+                </span>
               </div>
-              <h3 className="font-serif-fraunces text-xl font-medium text-[var(--ink)]">
-                {edu.institution}
-              </h3>
-              <p className="text-sm font-medium text-[var(--ink)] opacity-90">
-                {edu.degree}
+
+              <p className="text-sm font-medium text-slate-800">
+                {edu.degree}, <span className="text-slate-600">{edu.location}</span>
               </p>
-              <div className="text-xs text-[var(--moss)] font-semibold">
-                {edu.grade} • {edu.notable}
+
+              <div className="text-xs font-semibold text-slate-900 pt-1">
+                {edu.grade}, {edu.notable}
               </div>
-              <p className="text-xs text-[var(--stone)] leading-relaxed pt-1 border-t border-[var(--line-subtle)]">
-                Focus: {edu.focus}
+
+              <p className="text-xs text-slate-600 pt-1 border-t border-slate-100 font-sans-inter">
+                Curriculum Focus: {edu.focus}
               </p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Honors & Fellowships */}
-      <section className="space-y-6">
-        <h2 className="font-serif-fraunces text-2xl font-medium text-[var(--ink)] border-b border-[var(--line)] pb-3">
-          Honors &amp; Fellowships
+      {/* Honors, Fellowships & Grants */}
+      <section className="space-y-4">
+        <h2 className="font-serif-newsreader text-2xl font-normal text-slate-900 border-b border-slate-200 pb-2">
+          Honors, Fellowships &amp; Grants
         </h2>
 
-        <div className="space-y-4">
+        <div className="divide-y divide-slate-200 border border-slate-200 bg-white">
           {PORTFOLIO_DATA.recognition.map((item, idx) => (
             <div
               key={idx}
-              className="p-5 border border-[var(--line)] bg-[var(--paper)] flex flex-col sm:flex-row sm:items-start justify-between gap-3"
+              className="p-5 flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 text-sm font-sans-inter"
             >
               <div className="space-y-1 max-w-2xl">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-semibold text-[var(--moss)] uppercase tracking-wider">
+                  <span className="text-xs font-semibold text-slate-900">
                     {item.organization}
                   </span>
-                  <span className="text-xs text-[var(--stone)]">({item.year})</span>
+                  <span className="text-xs text-slate-400">·</span>
+                  <span className="text-xs text-slate-500">{item.year}</span>
                 </div>
-                <h3 className="font-serif-fraunces text-lg font-medium text-[var(--ink)]">
+                <h3 className="font-serif-newsreader text-lg font-semibold text-slate-900">
                   {item.title}
                 </h3>
-                <p className="text-xs sm:text-sm text-[var(--stone)] leading-relaxed">
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                   {item.description}
                 </p>
               </div>
 
               {item.badge && (
-                <span className="self-start text-[11px] px-2.5 py-1 bg-[var(--paper-dim)] text-[var(--stone)] border border-[var(--line-subtle)] whitespace-nowrap">
+                <span className="self-start text-xs text-slate-500 font-medium whitespace-nowrap">
                   {item.badge}
                 </span>
               )}
@@ -103,74 +105,69 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenResume }) => {
         </div>
       </section>
 
-      {/* Skills & Languages */}
-      <section className="space-y-6">
-        <h2 className="font-serif-fraunces text-2xl font-medium text-[var(--ink)] border-b border-[var(--line)] pb-3">
-          Skills &amp; Languages
+      {/* Technical & Methodological Skills */}
+      <section className="space-y-4">
+        <h2 className="font-serif-newsreader text-2xl font-normal text-slate-900 border-b border-slate-200 pb-2">
+          Methodological Competencies &amp; Languages
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
-          <div className="p-6 border border-[var(--line)] bg-[var(--paper)] space-y-3">
-            <h3 className="font-serif-fraunces text-lg font-medium text-[var(--ink)]">
-              Programming &amp; Technical Tools
-            </h3>
-            <p className="text-xs text-[var(--stone)] leading-relaxed">
-              Languages: Python, C++, HTML, CSS, JavaScript, and introductory SQL.
-            </p>
-            <p className="text-xs text-[var(--stone)] leading-relaxed">
-              Tools &amp; Hardware: Arduino microcontrollers, IoT sensors, Git, GitHub, VS Code, Canva, and Notion.
+        <div className="p-6 border border-slate-200 bg-white space-y-4 text-xs sm:text-sm text-slate-700 font-sans-inter">
+          <div>
+            <span className="font-semibold text-slate-900 block mb-1">
+              Programming &amp; Data:
+            </span>
+            <p className="text-slate-600">
+              {PORTFOLIO_DATA.skills.programming.join(' · ')}
             </p>
           </div>
 
-          <div className="p-6 border border-[var(--line)] bg-[var(--paper)] space-y-3">
-            <h3 className="font-serif-fraunces text-lg font-medium text-[var(--ink)]">
-              Languages
-            </h3>
-            <ul className="space-y-1.5 text-xs text-[var(--stone)]">
-              {PORTFOLIO_DATA.skills.languages.map((lang, idx) => (
-                <li key={idx} className="flex justify-between border-b border-[var(--line-subtle)] pb-1">
-                  <span className="font-medium text-[var(--ink)]">{lang.name}</span>
-                  <span>{lang.proficiency}</span>
-                </li>
-              ))}
-            </ul>
+          <div className="border-t border-slate-100 pt-3">
+            <span className="font-semibold text-slate-900 block mb-1">
+              Hardware Prototyping &amp; Instrumentation:
+            </span>
+            <p className="text-slate-600">
+              {PORTFOLIO_DATA.skills.technical.join(' · ')}
+            </p>
+          </div>
+
+          <div className="border-t border-slate-100 pt-3">
+            <span className="font-semibold text-slate-900 block mb-1">
+              Community Leadership &amp; Advocacy:
+            </span>
+            <p className="text-slate-600">
+              {PORTFOLIO_DATA.skills.leadership.join(' · ')}
+            </p>
+          </div>
+
+          <div className="border-t border-slate-100 pt-3">
+            <span className="font-semibold text-slate-900 block mb-1">
+              Languages:
+            </span>
+            <p className="text-slate-600">
+              {PORTFOLIO_DATA.skills.languages.map(l => `${l.name} (${l.proficiency})`).join(' · ')}
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Résumé Action Prompt */}
-      <div className="p-6 bg-[var(--paper-dim)] border border-[var(--line)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      {/* CV Callout */}
+      <div className="p-6 bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h3 className="font-serif-fraunces text-lg text-[var(--ink)]">
-            Looking for a complete academic curriculum vitae?
+          <h3 className="font-serif-newsreader text-lg font-semibold text-slate-900">
+            Comprehensive Curriculum Vitae
           </h3>
-          <p className="text-xs text-[var(--stone)]">
-            You can view or print my formatted two-page academic résumé directly.
+          <p className="text-xs text-slate-600">
+            A complete academic record formatted for college admissions and fellowship review.
           </p>
         </div>
+
         <button
           onClick={onOpenResume}
-          className="px-4 py-2 text-xs font-medium bg-[var(--moss)] text-[var(--paper)] hover:opacity-90 transition-opacity cursor-pointer whitespace-nowrap"
+          className="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-900 text-white text-xs font-medium rounded hover:bg-slate-800 transition-colors whitespace-nowrap self-start sm:self-auto cursor-pointer"
         >
-          Open Résumé (PDF)
+          <FileText className="w-3.5 h-3.5" />
+          <span>Open Academic CV</span>
         </button>
-      </div>
-
-      {/* Bottom Sign-off */}
-      <div className="pt-8 border-t border-[var(--line)] flex items-center justify-between">
-        <Link
-          to="/story"
-          className="text-xs text-[var(--stone)] hover:text-[var(--ink)] transition-colors"
-        >
-          ← Previous: Personal Story
-        </Link>
-        <Link
-          to="/contact"
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-[var(--moss)] hover:underline"
-        >
-          <span>Next: Get in Touch</span>
-          <span>→</span>
-        </Link>
       </div>
 
     </div>

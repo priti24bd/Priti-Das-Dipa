@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, ArrowUpRight, Copy, Check, Mail, Phone, FileText } from 'lucide-react';
+import { ArrowLeft, Copy, Check, ExternalLink, Mail, Phone, MapPin } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 
 interface ContactPageProps {
@@ -17,126 +17,128 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onOpenResume }) => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-12">
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-10">
       
       {/* Page Header */}
-      <div>
+      <div className="space-y-3">
         <Link
           to="/"
-          className="inline-flex items-center gap-1.5 text-xs text-[var(--stone)] hover:text-[var(--moss)] transition-colors mb-6"
+          className="inline-flex items-center gap-1 text-xs text-slate-500 hover:text-slate-900 transition-colors"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Back to home</span>
+          <span>Back to About</span>
         </Link>
 
-        <p className="text-xs uppercase tracking-widest text-[var(--moss)] font-semibold mb-2">
-          Contact &amp; Dialogue
-        </p>
-
-        <h1 className="font-serif-fraunces text-4xl sm:text-5xl font-medium tracking-tight text-[var(--ink)] mb-4">
-          Let's talk nutrition, code, or both.
+        <h1 className="font-serif-newsreader text-3xl sm:text-4xl font-normal text-slate-900 tracking-tight">
+          Academic &amp; Professional Contact
         </h1>
 
-        <p className="text-base sm:text-lg text-[var(--stone)] leading-relaxed font-sans-inter">
-          I am always open to conversations about youth empowerment, community health research, machine learning projects, and international fellowships.
+        <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-sans-inter">
+          I welcome correspondence regarding undergraduate admissions, research collaborations in applied machine learning and hydrology, public health partnerships, and student fellowships.
         </p>
       </div>
 
-      {/* Main Email Box */}
-      <div className="p-7 sm:p-8 border border-[var(--moss)] bg-[var(--paper-dim)] space-y-4">
-        <div className="flex items-center justify-between text-xs text-[var(--stone)]">
-          <span>Primary Email</span>
-          <button
-            onClick={handleCopyEmail}
-            className="inline-flex items-center gap-1 text-[var(--moss)] hover:underline cursor-pointer"
+      {/* Main Correspondence Card */}
+      <div className="p-6 sm:p-8 border border-slate-300 bg-white space-y-6">
+        <div className="space-y-2">
+          <div className="flex items-center justify-between text-xs text-slate-500 font-sans-inter">
+            <span>Primary Email Address</span>
+            <button
+              onClick={handleCopyEmail}
+              className="inline-flex items-center gap-1 text-blue-900 hover:underline cursor-pointer"
+            >
+              {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+              <span>{copied ? 'Copied to clipboard' : 'Copy email'}</span>
+            </button>
+          </div>
+
+          <a
+            href={`mailto:${PORTFOLIO_DATA.profile.email}`}
+            className="block font-serif-newsreader text-2xl sm:text-3xl text-slate-900 hover:text-blue-900 transition-colors break-all"
           >
-            {copied ? <Check className="w-3 h-3 text-[var(--moss)]" /> : <Copy className="w-3 h-3" />}
-            <span>{copied ? 'Copied' : 'Copy email address'}</span>
-          </button>
+            {PORTFOLIO_DATA.profile.email}
+          </a>
         </div>
 
-        <a
-          href={`mailto:${PORTFOLIO_DATA.profile.email}`}
-          className="block font-serif-fraunces text-2xl sm:text-3xl text-[var(--ink)] hover:text-[var(--moss)] transition-colors break-all"
-        >
-          {PORTFOLIO_DATA.profile.email}
-        </a>
+        <div className="pt-4 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-sans-inter">
+          <div className="space-y-1">
+            <span className="text-slate-500 block">Telephone &amp; WhatsApp:</span>
+            <a
+              href={`tel:${PORTFOLIO_DATA.profile.phone}`}
+              className="font-medium text-slate-900 hover:text-blue-900 block"
+            >
+              {PORTFOLIO_DATA.profile.phone}
+            </a>
+          </div>
 
-        <div className="pt-4 border-t border-[var(--line)] flex flex-wrap items-center justify-between gap-3 text-xs text-[var(--stone)]">
-          <span>Direct Phone &amp; WhatsApp:</span>
-          <a
-            href={`tel:${PORTFOLIO_DATA.profile.phone}`}
-            className="font-medium text-[var(--ink)] hover:text-[var(--moss)]"
-          >
-            {PORTFOLIO_DATA.profile.phone}
-          </a>
+          <div className="space-y-1">
+            <span className="text-slate-500 block">Primary Location:</span>
+            <span className="font-medium text-slate-900 block">
+              Dhaka &amp; Bagerhat, Bangladesh
+            </span>
+          </div>
         </div>
       </div>
 
       {/* Online Profiles & Verification */}
       <div className="space-y-3">
-        <h2 className="text-xs uppercase tracking-wider text-[var(--stone)] font-semibold">
-          Profiles and Media Archives
+        <h2 className="text-xs uppercase tracking-wider font-semibold text-slate-900">
+          Professional Repositories &amp; Links
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm font-sans-inter">
           <a
             href={PORTFOLIO_DATA.profile.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-4 border border-[var(--line)] hover:border-[var(--moss)] bg-[var(--paper)] transition-colors flex items-center justify-between group"
+            className="p-4 border border-slate-200 bg-white hover:border-slate-800 transition-colors flex items-center justify-between group"
           >
             <div>
-              <span className="font-medium text-[var(--ink)] block group-hover:text-[var(--moss)]">
-                LinkedIn
+              <span className="font-medium text-slate-900 block group-hover:text-blue-900">
+                LinkedIn Profile
               </span>
-              <span className="text-xs text-[var(--stone)]">/in/priti-das-dipa</span>
+              <span className="text-xs text-slate-500">linkedin.com/in/priti-das-dipa</span>
             </div>
-            <ArrowUpRight className="w-4 h-4 text-[var(--stone)] group-hover:text-[var(--moss)]" />
+            <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-slate-800" />
           </a>
 
           <a
             href={PORTFOLIO_DATA.profile.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-4 border border-[var(--line)] hover:border-[var(--moss)] bg-[var(--paper)] transition-colors flex items-center justify-between group"
+            className="p-4 border border-slate-200 bg-white hover:border-slate-800 transition-colors flex items-center justify-between group"
           >
             <div>
-              <span className="font-medium text-[var(--ink)] block group-hover:text-[var(--moss)]">
-                GitHub
+              <span className="font-medium text-slate-900 block group-hover:text-blue-900">
+                GitHub Repositories
               </span>
-              <span className="text-xs text-[var(--stone)]">github.com/priti24bd</span>
+              <span className="text-xs text-slate-500">github.com/priti24bd</span>
             </div>
-            <ArrowUpRight className="w-4 h-4 text-[var(--stone)] group-hover:text-[var(--moss)]" />
-          </a>
-
-          <a
-            href={PORTFOLIO_DATA.profile.driveFolder}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-4 border border-[var(--line)] hover:border-[var(--moss)] bg-[var(--paper)] transition-colors flex items-center justify-between group sm:col-span-2"
-          >
-            <div>
-              <span className="font-medium text-[var(--ink)] block group-hover:text-[var(--moss)]">
-                Field Photo &amp; Certificate Archive
-              </span>
-              <span className="text-xs text-[var(--stone)]">
-                Google Drive folder containing high-resolution event and certificate photos
-              </span>
-            </div>
-            <ArrowUpRight className="w-4 h-4 text-[var(--stone)] group-hover:text-[var(--moss)]" />
+            <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-slate-800" />
           </a>
         </div>
       </div>
 
-      {/* Résumé Action Button */}
-      <div className="pt-4">
-        <button
-          onClick={onOpenResume}
-          className="w-full py-3 border border-[var(--line)] hover:border-[var(--moss)] text-center text-xs sm:text-sm font-medium text-[var(--ink)] hover:text-[var(--moss)] bg-[var(--paper)] hover:bg-[var(--paper-dim)] transition-colors cursor-pointer"
+      {/* Academic Documents Archive */}
+      <div className="p-5 border border-slate-200 bg-slate-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs font-sans-inter">
+        <div>
+          <span className="font-semibold text-slate-900 block mb-0.5">
+            Institutional Credentials &amp; Certifications Folder
+          </span>
+          <p className="text-slate-600">
+            Authenticated certificates, competition awards, and project documentation hosted on Google Drive.
+          </p>
+        </div>
+
+        <a
+          href={PORTFOLIO_DATA.profile.driveFolder}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 px-3.5 py-2 border border-slate-300 bg-white text-slate-800 font-medium rounded hover:border-slate-800 hover:text-slate-950 transition-colors whitespace-nowrap self-start sm:self-auto"
         >
-          View / Print Complete Résumé (PDF)
-        </button>
+          <span>Open Drive Archive</span>
+          <ExternalLink className="w-3.5 h-3.5" />
+        </a>
       </div>
 
     </div>

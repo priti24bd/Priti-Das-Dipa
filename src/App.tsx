@@ -45,7 +45,7 @@ export default function App() {
   return (
     <HashRouter>
       <ScrollToTop />
-      <div className="min-h-screen bg-[var(--paper)] text-[var(--ink)] flex flex-col font-sans-inter selection:bg-[var(--moss)] selection:text-[var(--paper)] transition-colors">
+      <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans-inter selection:bg-slate-900 selection:text-white">
         {/* Navigation Masthead */}
         <Navbar
           darkMode={darkMode}

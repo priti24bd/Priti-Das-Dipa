@@ -1,56 +1,52 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Coffee, Heart, Users, Sparkles } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 
 export const StoryPage: React.FC = () => {
   const essay = PORTFOLIO_DATA.personalEssay;
 
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-12">
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-10">
       
       {/* Page Header */}
-      <div>
+      <div className="space-y-3">
         <Link
           to="/"
-          className="inline-flex items-center gap-1.5 text-xs text-[var(--stone)] hover:text-[var(--moss)] transition-colors mb-6"
+          className="inline-flex items-center gap-1 text-xs text-slate-500 hover:text-slate-900 transition-colors"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Back to home</span>
+          <span>Back to About</span>
         </Link>
 
-        <p className="text-xs uppercase tracking-widest text-[var(--moss)] font-semibold mb-2">
-          Personal Essay
-        </p>
-
-        <h1 className="font-serif-fraunces text-4xl sm:text-5xl font-medium tracking-tight text-[var(--ink)] mb-4">
-          Beyond the Résumé
+        <h1 className="font-serif-newsreader text-3xl sm:text-5xl font-normal text-slate-900 tracking-tight">
+          Beyond the Curriculum Vitae
         </h1>
 
-        <p className="font-serif-newsreader italic text-xl text-[var(--moss)] leading-relaxed mb-6">
-          A few things about me that a standard curriculum vitae cannot contain.
+        <p className="font-serif-newsreader italic text-xl text-slate-600 leading-relaxed">
+          Reflections on service, quiet discipline, and intellectual grounding.
         </p>
 
-        <p className="text-base text-[var(--ink)] opacity-90 leading-relaxed font-sans-inter">
+        <p className="text-base text-slate-700 leading-relaxed font-sans-inter pt-2">
           {essay.intro}
         </p>
       </div>
 
       {/* Narrative Essay Sections */}
-      <div className="space-y-12 border-t border-[var(--line)] pt-10">
+      <div className="space-y-12 border-t border-slate-200 pt-8">
         {essay.sections.map((section, idx) => (
           <article key={idx} className="space-y-4">
-            <h2 className="font-serif-fraunces text-2xl font-medium text-[var(--ink)]">
+            <h2 className="font-serif-newsreader text-2xl font-semibold text-slate-900">
               {section.heading}
             </h2>
 
             {section.quote && (
-              <blockquote className="border-l-2 border-[var(--moss)] pl-4 py-1 font-serif-newsreader italic text-lg text-[var(--moss)] leading-relaxed">
+              <blockquote className="border-l-2 border-slate-900 pl-4 py-1 font-serif-newsreader italic text-lg text-slate-700 leading-relaxed">
                 "{section.quote}"
               </blockquote>
             )}
 
-            <div className="space-y-3 text-base text-[var(--ink)] opacity-90 leading-relaxed font-sans-inter">
+            <div className="space-y-3 text-base text-slate-800 leading-relaxed font-sans-inter">
               {section.body.map((paragraph, pIdx) => (
                 <p key={pIdx}>
                   {paragraph}
@@ -61,20 +57,19 @@ export const StoryPage: React.FC = () => {
         ))}
       </div>
 
-      {/* Bottom Sign-off */}
-      <div className="pt-8 border-t border-[var(--line)] flex items-center justify-between">
+      {/* Bottom Navigation */}
+      <div className="pt-8 border-t border-slate-200 flex items-center justify-between text-xs font-sans-inter text-slate-600">
         <Link
           to="/projects"
-          className="text-xs text-[var(--stone)] hover:text-[var(--ink)] transition-colors"
+          className="hover:text-slate-900 transition-colors"
         >
-          ← Previous: Projects
+          ← Research &amp; Projects
         </Link>
         <Link
           to="/about"
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-[var(--moss)] hover:underline"
+          className="hover:text-slate-900 transition-colors"
         >
-          <span>Next: Education &amp; Honors</span>
-          <span>→</span>
+          Education &amp; Honors →
         </Link>
       </div>
 

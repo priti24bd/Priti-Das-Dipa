@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { NavLink, Link } from 'react-router-dom';
-import { Moon, Sun, FileText, Menu, X, ArrowUpRight } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { NavLink, Link, useLocation } from 'react-router-dom';
+import { FileText, ChevronDown, Check } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 
 interface NavbarProps {
@@ -10,144 +10,136 @@ interface NavbarProps {
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
-  darkMode,
-  onToggleDarkMode,
   onOpenResume,
 }) => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
 
   const navLinks = [
-    { label: 'Home', path: '/' },
-    { label: 'Leadership', path: '/leadership' },
-    { label: 'Projects', path: '/projects' },
-    { label: 'Personal Story', path: '/story' },
+    { label: 'About', path: '/' },
+    { label: 'Research & Projects', path: '/projects' },
+    { label: 'Leadership & Impact', path: '/leadership' },
     { label: 'Education & Honors', path: '/about' },
+    { label: 'Personal Statement', path: '/story' },
     { label: 'Contact', path: '/contact' },
   ];
 
-  const closeMobileMenu = () => setMobileMenuOpen(false);
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
+  }, []);
+
+  // Determine current active section label
+  const currentSection = navLinks.find(link => 
+    link.path === '/' 
+      ? location.pathname === '/' 
+      : location.pathname.startsWith(link.path)
+  ) || navLinks[0];
 
   return (
-    <header className="no-print border-b border-[var(--line)] bg-[var(--paper)] sticky top-0 z-40 backdrop-blur-md bg-opacity-95 transition-colors">
-      {/* Top Location and Status Line */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-2 flex items-center justify-between text-xs text-[var(--stone)] border-b border-[var(--line-subtle)]">
-        <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[var(--moss)] inline-block" />
-          <span>Dhaka and Bagerhat, Bangladesh</span>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <span className="hidden sm:inline text-[var(--ink)] opacity-75">
-            Founder, NOVA Nourish Foundation
-          </span>
-          <button
-            onClick={onToggleDarkMode}
-            className="p-1 rounded text-[var(--stone)] hover:text-[var(--ink)] transition-colors cursor-pointer"
-            aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-            title={darkMode ? 'Switch to light theme' : 'Switch to dark theme'}
+    <header className="no-print bg-white border-b border-slate-200 sticky top-0 z-50">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <div className="flex items-center justify-between h-16 sm:h-20">
+          
+          {/* Scholar Wordmark (Bangladesh word removed) */}
+          <Link
+            to="/"
+            onClick={() => setMenuOpen(false)}
+            className="flex flex-col group py-1"
           >
-            {darkMode ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
-          </button>
-        </div>
-      </div>
+            <span className="font-serif-newsreader text-xl sm:text-2xl font-semibold tracking-tight text-slate-900 group-hover:text-blue-900 transition-colors">
+              {PORTFOLIO_DATA.profile.name}
+            </span>
+            <span className="text-xs text-slate-500 font-sans-inter">
+              {PORTFOLIO_DATA.profile.roleSubtitle}
+            </span>
+          </Link>
 
-      {/* Main Masthead Navigation */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
-        <Link
-          to="/"
-          onClick={closeMobileMenu}
-          className="group flex flex-col"
-        >
-          <span className="font-serif-fraunces text-xl sm:text-2xl font-medium tracking-tight text-[var(--ink)] group-hover:text-[var(--moss)] transition-colors">
-            Priti Das <span className="italic font-normal text-[var(--moss)]">Dipa</span>
-          </span>
-          <span className="text-[11px] text-[var(--stone)] font-sans-inter">
-            Community leadership and applied machine learning
-          </span>
-        </Link>
-
-        {/* Desktop Links */}
-        <nav className="hidden md:flex items-center gap-5 text-sm font-sans-inter">
-          {navLinks.map((link) => (
-            <NavLink
-              key={link.path}
-              to={link.path}
-              className={({ isActive }) =>
-                `transition-colors pb-0.5 border-b-2 ${
-                  isActive
-                    ? 'text-[var(--moss)] font-medium border-[var(--moss)]'
-                    : 'text-[var(--ink)] opacity-80 hover:opacity-100 border-transparent hover:border-[var(--line)]'
-                }`
-              }
-            >
-              {link.label}
-            </NavLink>
-          ))}
-        </nav>
-
-        {/* Action Triggers */}
-        <div className="hidden sm:flex items-center gap-3">
-          <button
-            onClick={onOpenResume}
-            className="inline-flex items-center gap-1.5 text-xs font-medium text-[var(--ink)] hover:text-[var(--moss)] border border-[var(--line)] hover:border-[var(--moss)] px-3 py-1.5 transition-colors cursor-pointer"
-          >
-            <FileText className="w-3.5 h-3.5 text-[var(--moss)]" />
-            <span>Résumé</span>
-          </button>
-        </div>
-
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden p-1.5 text-[var(--ink)] hover:text-[var(--moss)] transition-colors cursor-pointer"
-          aria-label="Toggle navigation menu"
-        >
-          {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
-      </div>
-
-      {/* Mobile Drawer */}
-      {mobileMenuOpen && (
-        <div className="md:hidden border-t border-[var(--line)] bg-[var(--paper-dim)] px-4 py-4 space-y-3">
-          <div className="flex flex-col space-y-2">
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.path}
-                to={link.path}
-                onClick={closeMobileMenu}
-                className={({ isActive }) =>
-                  `text-sm py-2 px-3 transition-colors ${
-                    isActive
-                      ? 'bg-[var(--paper)] text-[var(--moss)] font-medium border-l-2 border-[var(--moss)]'
-                      : 'text-[var(--ink)] hover:bg-[var(--paper)]'
-                  }`
-                }
-              >
-                {link.label}
-              </NavLink>
-            ))}
-          </div>
-
-          <div className="pt-3 border-t border-[var(--line)] flex gap-2">
+          {/* Clean Corner Navigation Controls */}
+          <div className="flex items-center gap-2 relative" ref={dropdownRef}>
+            
+            {/* Quick Curriculum Vitae (CV) Trigger */}
             <button
-              onClick={() => {
-                closeMobileMenu();
-                onOpenResume();
-              }}
-              className="flex-1 py-2 text-xs font-medium text-center border border-[var(--line)] text-[var(--ink)] hover:text-[var(--moss)] bg-[var(--paper)] cursor-pointer"
+              onClick={onOpenResume}
+              className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-700 hover:text-slate-950 border border-slate-300 hover:border-slate-800 px-3 py-1.5 rounded transition-colors cursor-pointer"
+              title="Open Curriculum Vitae (CV)"
             >
-              View Résumé
+              <FileText className="w-3.5 h-3.5 text-slate-600" />
+              <span>CV</span>
             </button>
-            <Link
-              to="/contact"
-              onClick={closeMobileMenu}
-              className="flex-1 py-2 text-xs font-medium text-center bg-[var(--moss)] text-[var(--paper)] hover:opacity-90"
+
+            {/* Corner Sub-Section Selector */}
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="inline-flex items-center gap-2 text-xs font-medium text-slate-900 bg-slate-50 hover:bg-slate-100 border border-slate-300 hover:border-slate-800 px-3.5 py-1.5 rounded transition-all cursor-pointer shadow-2xs"
+              aria-expanded={menuOpen}
+              aria-label="Select section to view"
             >
-              Get in Touch
-            </Link>
+              <span className="text-slate-500 hidden sm:inline">Section:</span>
+              <span className="font-semibold text-slate-900">{currentSection.label}</span>
+              <ChevronDown className={`w-3.5 h-3.5 text-slate-500 transition-transform ${menuOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            {/* Corner Dropdown Menu */}
+            {menuOpen && (
+              <div className="absolute right-0 top-full mt-2 w-64 bg-white border border-slate-300 rounded shadow-lg py-1.5 z-50 animate-in fade-in zoom-in-95 duration-100 font-sans-inter">
+                <div className="px-3 py-1.5 text-[11px] font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-100">
+                  Select Section to View
+                </div>
+
+                <div className="py-1">
+                  {navLinks.map((link) => {
+                    const isActive = link.path === '/' 
+                      ? location.pathname === '/' 
+                      : location.pathname.startsWith(link.path);
+
+                    return (
+                      <NavLink
+                        key={link.path}
+                        to={link.path}
+                        onClick={() => setMenuOpen(false)}
+                        className={`flex items-center justify-between px-3.5 py-2 text-xs transition-colors ${
+                          isActive
+                            ? 'bg-slate-50 font-semibold text-slate-950'
+                            : 'text-slate-700 hover:bg-slate-100 hover:text-slate-950'
+                        }`}
+                      >
+                        <span>{link.label}</span>
+                        {isActive && <Check className="w-3.5 h-3.5 text-slate-900" />}
+                      </NavLink>
+                    );
+                  })}
+                </div>
+
+                <div className="border-t border-slate-100 p-2">
+                  <button
+                    onClick={() => {
+                      setMenuOpen(false);
+                      onOpenResume();
+                    }}
+                    className="w-full flex items-center justify-between px-2.5 py-1.5 text-xs text-blue-900 hover:bg-blue-50 font-medium rounded transition-colors text-left"
+                  >
+                    <span className="flex items-center gap-1.5">
+                      <FileText className="w-3.5 h-3.5" />
+                      Academic CV (PDF)
+                    </span>
+                    <span className="text-[10px] text-slate-400 uppercase font-mono">View</span>
+                  </button>
+                </div>
+              </div>
+            )}
+
           </div>
+
         </div>
-      )}
+      </div>
     </header>
   );
 };

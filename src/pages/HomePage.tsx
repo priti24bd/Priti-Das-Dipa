@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, BookOpen, Sparkles, HeartHandshake, Compass, GraduationCap, Mail } from 'lucide-react';
+import { ArrowRight, FileText, Mail, MapPin, ExternalLink } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 
 interface HomePageProps {
@@ -9,202 +9,372 @@ interface HomePageProps {
 
 export const HomePage: React.FC<HomePageProps> = ({ onOpenResume }) => {
   return (
-    <div className="space-y-16 sm:space-y-24 py-10 sm:py-16">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
       
-      {/* Intro Section */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6">
-        <p className="text-xs uppercase tracking-widest text-[var(--moss)] font-semibold mb-4">
-          Hello and welcome
-        </p>
-
-        <h1 className="font-serif-fraunces text-4xl sm:text-6xl lg:text-7xl font-medium tracking-tight text-[var(--ink)] leading-[1.05] mb-6">
-          I am Priti Das <em className="italic font-normal text-[var(--moss)]">Dipa</em>, a community builder and student from Bangladesh.
-        </h1>
-
-        <p className="font-serif-newsreader italic text-xl sm:text-2xl text-[var(--moss)] leading-relaxed mb-6 max-w-2xl">
-          "Care does not require an auditorium. It begins with quiet attention, clean data, and showing up for the community you call home."
-        </p>
-
-        <p className="text-base sm:text-lg text-[var(--ink)] opacity-90 leading-relaxed max-w-2xl mb-8">
-          I am the founder and executive director of NOVA Nourish Foundation, where we work across schools and communities to improve youth nutrition and wellbeing. Alongside grassroots health work, I explore how applied machine learning and low-cost sensors can help solve rural challenges like flood warnings and child health monitoring.
-        </p>
-
-        <div className="flex flex-wrap items-center gap-3 pt-2">
-          <Link
-            to="/leadership"
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[var(--ink)] text-[var(--paper)] hover:bg-[var(--moss)] transition-colors text-sm font-medium"
-          >
-            <span>See my leadership work</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-
-          <Link
-            to="/story"
-            className="inline-flex items-center gap-2 px-4 py-2.5 border border-[var(--line)] hover:border-[var(--moss)] text-[var(--ink)] hover:text-[var(--moss)] transition-colors text-sm font-medium"
-          >
-            <BookOpen className="w-4 h-4 text-[var(--moss)]" />
-            <span>Read my personal story</span>
-          </Link>
-
-          <button
-            onClick={onOpenResume}
-            className="inline-flex items-center gap-2 px-4 py-2.5 border border-[var(--line)] hover:border-[var(--moss)] text-[var(--ink)] hover:text-[var(--moss)] transition-colors text-sm font-medium cursor-pointer"
-          >
-            <span>View résumé</span>
-          </button>
-        </div>
-      </section>
-
-      {/* Current Highlights Note */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6">
-        <div className="p-6 sm:p-8 bg-[var(--paper-dim)] border border-[var(--line)]">
-          <div className="text-xs uppercase tracking-wider text-[var(--stone)] font-medium mb-3">
-            What I am working on right now
+      {/* 2-Column Academic Layout */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-14 items-start">
+        
+        {/* Left Column: Scholar Profile Sidebar */}
+        <aside className="md:col-span-4 space-y-6">
+          
+          {/* Portrait Photo: Public Speaking & Youth Leadership */}
+          <div className="border border-slate-200 bg-slate-50 p-2 shadow-2xs">
+            <img
+              src="/assets/images/youth_leadership.jpg"
+              alt="Priti Das Dipa - Public Speaking and Youth Leadership"
+              className="w-full h-auto aspect-[3/4] object-cover object-top"
+            />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+          {/* Scholar Identification */}
+          <div className="space-y-3 border-b border-slate-200 pb-5">
             <div>
-              <h3 className="font-serif-fraunces text-base font-semibold text-[var(--ink)] mb-1">
-                NOVA Nourish Foundation
-              </h3>
-              <p className="text-[var(--stone)] leading-relaxed">
-                Leading youth health initiatives, school nutritional workshops, and an eight-week mental wellbeing curriculum.
+              <h1 className="font-serif-newsreader text-2xl font-bold text-slate-900 tracking-tight">
+                {PORTFOLIO_DATA.profile.name}
+              </h1>
+              <p className="text-xs text-slate-700 font-medium mt-0.5">
+                {PORTFOLIO_DATA.profile.applicantStatus}
               </p>
             </div>
 
-            <div>
-              <h3 className="font-serif-fraunces text-base font-semibold text-[var(--ink)] mb-1">
-                United Nations CSW70
-              </h3>
-              <p className="text-[var(--stone)] leading-relaxed">
-                Selected as an invited youth participant with UN Women to contribute to deliberations on gender equity and youth inclusion.
+            <div className="text-xs text-slate-700 space-y-1 leading-relaxed">
+              <p className="font-medium text-slate-900">
+                Founder &amp; Executive Director
+              </p>
+              <p className="text-slate-600">
+                <a
+                  href={PORTFOLIO_DATA.profile.nnfWebsite}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-blue-900 underline underline-offset-2"
+                >
+                  NOVA Nourish Foundation
+                </a>
+              </p>
+              <p className="font-medium text-slate-900 pt-1">
+                Machine Learning Intern
+              </p>
+              <p className="text-slate-600">
+                FlyRank AI
+              </p>
+              <p className="font-medium text-slate-900 pt-1">
+                Invited Youth Participant
+              </p>
+              <p className="text-slate-600">
+                UN Women CSW70
               </p>
             </div>
+          </div>
 
-            <div>
-              <h3 className="font-serif-fraunces text-base font-semibold text-[var(--ink)] mb-1">
-                FlyRank AI &amp; CS50AI
-              </h3>
-              <p className="text-[var(--stone)] leading-relaxed">
-                Interning in machine learning pipelines, building upon foundations from Harvard's introduction to artificial intelligence.
-              </p>
+          {/* Contact & Scholarly Links */}
+          <div className="space-y-2 text-xs text-slate-600 border-b border-slate-200 pb-5">
+            <div className="flex items-center gap-2 text-slate-700">
+              <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+              <span>{PORTFOLIO_DATA.profile.location}</span>
+            </div>
+
+            <div className="flex items-center gap-2 text-slate-700">
+              <Mail className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+              <a
+                href={`mailto:${PORTFOLIO_DATA.profile.email}`}
+                className="hover:text-blue-900 transition-colors"
+              >
+                {PORTFOLIO_DATA.profile.email}
+              </a>
+            </div>
+
+            <div className="pt-2 flex flex-col gap-1.5 font-medium text-slate-900">
+              <button
+                onClick={onOpenResume}
+                className="inline-flex items-center gap-1.5 text-blue-900 hover:underline cursor-pointer text-left"
+              >
+                <FileText className="w-3.5 h-3.5" />
+                <span>Curriculum Vitae (PDF)</span>
+              </button>
+
+              <a
+                href={PORTFOLIO_DATA.profile.nnfWebsite}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 hover:text-blue-900 transition-colors"
+              >
+                <span>NOVA Nourish Foundation Portal</span>
+                <ExternalLink className="w-3 h-3 text-slate-400" />
+              </a>
+
+              <a
+                href={PORTFOLIO_DATA.profile.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 hover:text-blue-900 transition-colors"
+              >
+                <span>LinkedIn Profile</span>
+                <ExternalLink className="w-3 h-3 text-slate-400" />
+              </a>
+
+              <a
+                href={PORTFOLIO_DATA.profile.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 hover:text-blue-900 transition-colors"
+              >
+                <span>GitHub Repositories</span>
+                <ExternalLink className="w-3 h-3 text-slate-400" />
+              </a>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Route Directory - Clean, intuitive cards */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6">
-        <div className="border-t border-[var(--line)] pt-12">
-          <div className="text-xs uppercase tracking-widest text-[var(--stone)] font-semibold mb-2">
-            Explore My Work
-          </div>
-          <h2 className="font-serif-fraunces text-2xl sm:text-3xl font-medium text-[var(--ink)] mb-8">
-            Choose a section to read more
-          </h2>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            
-            {/* Leadership Route Card */}
-            <Link
-              to="/leadership"
-              className="p-6 border border-[var(--line)] bg-[var(--paper)] hover:border-[var(--moss)] hover:bg-[var(--paper-dim)] transition-all group block"
-            >
-              <div className="text-xs text-[var(--moss)] font-semibold uppercase tracking-wider mb-2">
-                01 / Leadership
-              </div>
-              <h3 className="font-serif-fraunces text-xl font-medium text-[var(--ink)] group-hover:text-[var(--moss)] transition-colors mb-2">
-                Community &amp; Youth Leadership
-              </h3>
-              <p className="text-sm text-[var(--stone)] leading-relaxed mb-4">
-                From launching NOVA Nourish Foundation to training youth leaders across ten administrative districts with the JAAGO Foundation.
-              </p>
-              <span className="inline-flex items-center gap-1.5 text-xs font-medium text-[var(--moss)] group-hover:underline">
-                Read leadership experience <ArrowRight className="w-3.5 h-3.5" />
-              </span>
-            </Link>
-
-            {/* Projects Route Card */}
-            <Link
-              to="/projects"
-              className="p-6 border border-[var(--line)] bg-[var(--paper)] hover:border-[var(--moss)] hover:bg-[var(--paper-dim)] transition-all group block"
-            >
-              <div className="text-xs text-[var(--moss)] font-semibold uppercase tracking-wider mb-2">
-                02 / Projects
-              </div>
-              <h3 className="font-serif-fraunces text-xl font-medium text-[var(--ink)] group-hover:text-[var(--moss)] transition-colors mb-2">
-                Projects &amp; Innovation
-              </h3>
-              <p className="text-sm text-[var(--stone)] leading-relaxed mb-4">
-                Field-tested flood sensors, community nutrition bags funded by GAIN, and practical hardware automation builds.
-              </p>
-              <span className="inline-flex items-center gap-1.5 text-xs font-medium text-[var(--moss)] group-hover:underline">
-                Explore projects and builds <ArrowRight className="w-3.5 h-3.5" />
-              </span>
-            </Link>
-
-            {/* Personal Story Route Card */}
-            <Link
-              to="/story"
-              className="p-6 border border-[var(--line)] bg-[var(--paper)] hover:border-[var(--moss)] hover:bg-[var(--paper-dim)] transition-all group block"
-            >
-              <div className="text-xs text-[var(--moss)] font-semibold uppercase tracking-wider mb-2">
-                03 / Personal Essay
-              </div>
-              <h3 className="font-serif-fraunces text-xl font-medium text-[var(--ink)] group-hover:text-[var(--moss)] transition-colors mb-2">
-                Beyond the Résumé
-              </h3>
-              <p className="text-sm text-[var(--stone)] leading-relaxed mb-4">
-                Afternoon tea with my grandfather, checking blood pressure for village elders, and the values that shape how I lead.
-              </p>
-              <span className="inline-flex items-center gap-1.5 text-xs font-medium text-[var(--moss)] group-hover:underline">
-                Read the personal essay <ArrowRight className="w-3.5 h-3.5" />
-              </span>
-            </Link>
-
-            {/* Education & Honors Route Card */}
-            <Link
-              to="/about"
-              className="p-6 border border-[var(--line)] bg-[var(--paper)] hover:border-[var(--moss)] hover:bg-[var(--paper-dim)] transition-all group block"
-            >
-              <div className="text-xs text-[var(--moss)] font-semibold uppercase tracking-wider mb-2">
-                04 / Background
-              </div>
-              <h3 className="font-serif-fraunces text-xl font-medium text-[var(--ink)] group-hover:text-[var(--moss)] transition-colors mb-2">
-                Education &amp; Honors
-              </h3>
-              <p className="text-sm text-[var(--stone)] leading-relaxed mb-4">
-                Academic results (GPA 4.92, ranked second among 1,200 students), international fellowships, and technical skills.
-              </p>
-              <span className="inline-flex items-center gap-1.5 text-xs font-medium text-[var(--moss)] group-hover:underline">
-                View background and credentials <ArrowRight className="w-3.5 h-3.5" />
-              </span>
-            </Link>
-
-          </div>
-        </div>
-      </section>
-
-      {/* Simple Personal Sign-Off */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6">
-        <div className="p-8 border border-[var(--line)] bg-[var(--paper)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-          <div>
-            <h3 className="font-serif-fraunces text-xl text-[var(--ink)] mb-1">
-              Interested in speaking or collaborating?
-            </h3>
-            <p className="text-sm text-[var(--stone)]">
-              I welcome conversations about public health, research fellowships, and youth leadership.
+          {/* Academic Record */}
+          <div className="p-3.5 bg-slate-50 border border-slate-200 text-xs space-y-1">
+            <span className="font-semibold text-slate-900 block">
+              Academic Record
+            </span>
+            <p className="text-slate-700">
+              Higher Secondary Certificate: <strong>GPA 4.92 / 5.00</strong>
+            </p>
+            <p className="text-slate-600">
+              Ranked 2nd out of 1,200 students at Tungipara Govt. College.
             </p>
           </div>
-          <Link
-            to="/contact"
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[var(--moss)] text-[var(--paper)] hover:opacity-90 transition-opacity text-sm font-medium shrink-0"
-          >
-            <span>Get in touch</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-      </section>
+
+          {/* Core Areas of Inquiry */}
+          <div className="space-y-2">
+            <h2 className="text-xs uppercase tracking-wider font-semibold text-slate-900">
+              Areas of Intellectual Inquiry
+            </h2>
+            <ul className="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
+              <li>Community Health &amp; Micronutrient Policy</li>
+              <li>Human Attachment Theory &amp; Group Dynamics</li>
+              <li>Low-Cost Environmental Sensor Engineering</li>
+              <li>Applied Machine Learning for Social Good</li>
+              <li>Youth Leadership &amp; Community Organizing</li>
+            </ul>
+          </div>
+
+        </aside>
+
+        {/* Right Column: Main Scholar Narrative & Academic Overview */}
+        <main className="md:col-span-8 space-y-10">
+          
+          {/* Welcome & Scholar Statement */}
+          <section className="space-y-4">
+            <h2 className="font-serif-newsreader text-3xl sm:text-4xl font-normal text-slate-900 tracking-tight leading-tight">
+              About
+            </h2>
+
+            <div className="space-y-4 text-slate-800 leading-relaxed text-base font-normal font-sans-inter">
+              <p>
+                I am a student researcher, community organizer, and aspiring undergraduate scholar from southwestern coastal Bangladesh. Growing up in a region frequently challenged by river flooding and seasonal salinity, I learned early that lasting change begins with quiet observation, empathy, and consistent personal responsibility toward one's neighbours.
+              </p>
+
+              <p>
+                As Founder and Executive Director of the <strong>NOVA Nourish Foundation (NNF)</strong>, I lead grassroots health and nutrition initiatives focused on adolescent girls and underserved families. What began as small classroom conversations in rural schools has grown into an international youth movement with over <strong>120 dedicated volunteers across 15 countries</strong>. Through hands-on workshops across <strong>5+ secondary schools</strong>, we have reached more than <strong>2,000 individuals</strong> with practical dietary education, adolescent hygiene guidance, and peer health ambassador training. Supported by the <strong>Global Alliance for Improved Nutrition (GAIN)</strong>, I initiated the <em>Hanging Nutrition Bag Initiative</em>, one of 16 youth projects funded nationally, to protect essential micronutrient supplies from household dampness and pests in flood-prone homes.
+              </p>
+
+              <p>
+                My curiosity extends deeply into empirical problem-solving and technology. As a Machine Learning Intern at <strong>FlyRank AI</strong>, I build data preprocessing pipelines and predictive models, drawing on computational principles from <strong>Harvard University's CS50AI</strong> (CS50's Introduction to Artificial Intelligence with Python). During the imaGen Ventures Youth Challenge backed by the U.S. Embassy Dhaka and UNICEF, I worked with a team to design an IoT ultrasonic hydrology sensor and drone alert prototype, ranking in the <strong>Top 4 out of 135 competitive teams</strong>.
+              </p>
+
+              <p>
+                Alongside engineering and public health, I have pursued independent, self-directed research into <strong>human attachment styles and interpersonal relationships</strong>. Fascinated by John Bowlby and Mary Ainsworth's work, I explored how early relational patterns shape emotional safety, trust, and conflict resolution within adolescent volunteer teams. This curiosity-driven inquiry has fundamentally shaped how I listen, lead, and foster mutual respect among young organizers.
+              </p>
+
+              <p>
+                In 2026, I was selected as an invited youth participant to contribute to the <strong>70th Session of the United Nations Commission on the Status of Women (CSW70)</strong> with UN Women, engaging in international discussions on adolescent health and women's empowerment.
+              </p>
+
+              <p className="pt-1 text-slate-900 font-medium">
+                I am preparing for undergraduate studies beginning in Fall 2027, eager to immerse myself in an intellectually rigorous, interdisciplinary environment that prizes ethical inquiry and devotion to the common good.
+              </p>
+            </div>
+
+            {/* Quick Action Navigation */}
+            <div className="flex flex-wrap items-center gap-3 pt-3">
+              <Link
+                to="/projects"
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-900 text-white text-xs font-medium rounded hover:bg-slate-800 transition-colors"
+              >
+                <span>Research &amp; Projects</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+
+              <Link
+                to="/leadership"
+                className="inline-flex items-center gap-1.5 px-4 py-2 border border-slate-300 text-slate-800 text-xs font-medium rounded hover:border-slate-800 hover:text-slate-950 transition-colors"
+              >
+                <span>Leadership &amp; Community Impact</span>
+              </Link>
+
+              <Link
+                to="/story"
+                className="inline-flex items-center gap-1.5 px-4 py-2 border border-slate-300 text-slate-800 text-xs font-medium rounded hover:border-slate-800 hover:text-slate-950 transition-colors"
+              >
+                <span>Personal Reflections</span>
+              </Link>
+            </div>
+          </section>
+
+          {/* Academic Inquiry Points */}
+          <section className="space-y-4 border-t border-slate-200 pt-8">
+            <h2 className="font-serif-newsreader text-2xl font-normal text-slate-900">
+              Primary Research &amp; Intellectual Inquiries
+            </h2>
+
+            <div className="space-y-3 text-sm text-slate-700 leading-relaxed font-sans-inter">
+              <div className="p-4 bg-slate-50 border border-slate-200 space-y-1">
+                <h3 className="font-semibold text-slate-900 text-sm">
+                  1. Community-Anchored Adolescent Nutrition and Hygiene
+                </h3>
+                <p className="text-slate-600 text-xs sm:text-sm">
+                  Investigating iron-deficiency anemia and dietary diversity in coastal communities, designing peer-led educational workshops and low-cost moisture-safe household storage solutions that overcome local taboos.
+                </p>
+              </div>
+
+              <div className="p-4 bg-slate-50 border border-slate-200 space-y-1">
+                <h3 className="font-semibold text-slate-900 text-sm">
+                  2. Self-Directed Study: Attachment Styles &amp; Interpersonal Relationships
+                </h3>
+                <p className="text-slate-600 text-xs sm:text-sm">
+                  Independent theoretical synthesis examining how secure versus insecure attachment orientations influence adolescent peer communication, emotional vulnerability, and collaboration in volunteer-led community initiatives.
+                </p>
+              </div>
+
+              <div className="p-4 bg-slate-50 border border-slate-200 space-y-1">
+                <h3 className="font-semibold text-slate-900 text-sm">
+                  3. Early-Warning Hydrology &amp; Low-Cost Edge Telemetry
+                </h3>
+                <p className="text-slate-600 text-xs sm:text-sm">
+                  Prototyping how ultrasonic water-level sensors and microcontrollers can provide hours of advance warning to rural households before riverbanks crest, combining hardware sensing with localized alert dissemination.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Recent News & Academic Milestones */}
+          <section className="space-y-4 border-t border-slate-200 pt-8">
+            <h2 className="font-serif-newsreader text-2xl font-normal text-slate-900">
+              Recent Milestones
+            </h2>
+
+            <div className="divide-y divide-slate-200 text-sm font-sans-inter">
+              
+              <div className="py-3 flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-6">
+                <span className="text-xs font-semibold text-slate-500 w-24 shrink-0">
+                  Jan 2026
+                </span>
+                <div className="space-y-0.5">
+                  <p className="text-slate-900 font-medium">
+                    Invited Youth Participant, UN Women CSW70
+                  </p>
+                  <p className="text-xs text-slate-600">
+                    Selected to participate in international deliberations for the 70th Session of the Commission on the Status of Women.
+                  </p>
+                </div>
+              </div>
+
+              <div className="py-3 flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-6">
+                <span className="text-xs font-semibold text-slate-500 w-24 shrink-0">
+                  2026
+                </span>
+                <div className="space-y-0.5">
+                  <p className="text-slate-900 font-medium">
+                    Machine Learning Intern at FlyRank AI &amp; CS50AI Coursework
+                  </p>
+                  <p className="text-xs text-slate-600">
+                    Developing machine learning workflows and completing Harvard's CS50 Introduction to Artificial Intelligence with Python.
+                  </p>
+                </div>
+              </div>
+
+              <div className="py-3 flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-6">
+                <span className="text-xs font-semibold text-slate-500 w-24 shrink-0">
+                  2025
+                </span>
+                <div className="space-y-0.5">
+                  <p className="text-slate-900 font-medium">
+                    National Nutrition Grant, Global Alliance for Improved Nutrition (GAIN)
+                  </p>
+                  <p className="text-xs text-slate-600">
+                    Awarded competitive grant as 1 of only 16 youth projects selected nationwide for the Hanging Nutrition Bag initiative.
+                  </p>
+                </div>
+              </div>
+
+              <div className="py-3 flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-6">
+                <span className="text-xs font-semibold text-slate-500 w-24 shrink-0">
+                  2025
+                </span>
+                <div className="space-y-0.5">
+                  <p className="text-slate-900 font-medium">
+                    Top 4 Finalist, imaGen Ventures Youth Challenge
+                  </p>
+                  <p className="text-xs text-slate-600">
+                    Ranked in Top 4 of 135 teams by U.S. Embassy Dhaka, Generation Unlimited, JAAGO, and UNICEF for IoT flood telemetry prototype.
+                  </p>
+                </div>
+              </div>
+
+              <div className="py-3 flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-6">
+                <span className="text-xs font-semibold text-slate-500 w-24 shrink-0">
+                  Oct 2024
+                </span>
+                <div className="space-y-0.5">
+                  <p className="text-slate-900 font-medium">
+                    Ranked 2nd of 1,200 Students in HSC Examinations
+                  </p>
+                  <p className="text-xs text-slate-600">
+                    Graduated with GPA 4.92 / 5.00 from Tungipara Govt. College.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+          {/* Direct Scholarly Links to Core Pages */}
+          <section className="space-y-4 border-t border-slate-200 pt-8">
+            <h2 className="font-serif-newsreader text-2xl font-normal text-slate-900">
+              Selected Portfolios &amp; Dossiers
+            </h2>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              
+              <Link
+                to="/projects"
+                className="p-4 border border-slate-200 bg-white hover:border-slate-800 transition-colors group block space-y-2"
+              >
+                <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                  Technical &amp; Psychological Research
+                </div>
+                <h3 className="font-serif-newsreader text-lg font-semibold text-slate-900 group-hover:text-blue-900 transition-colors">
+                  Research, Telemetry &amp; Inquiries →
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Field hydrology sensing, attachment theory self-study, and machine learning pipelines.
+                </p>
+              </Link>
+
+              <Link
+                to="/leadership"
+                className="p-4 border border-slate-200 bg-white hover:border-slate-800 transition-colors group block space-y-2"
+              >
+                <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                  Grassroots Leadership
+                </div>
+                <h3 className="font-serif-newsreader text-lg font-semibold text-slate-900 group-hover:text-blue-900 transition-colors">
+                  NOVA Nourish Foundation &amp; Community Impact →
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  2,000+ individuals reached, 120+ active volunteers across 15 nations, and public health campaigns.
+                </p>
+              </Link>
+
+            </div>
+          </section>
+
+        </main>
+
+      </div>
 
     </div>
   );
