@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, FileText, Mail, MapPin, ExternalLink } from 'lucide-react';
+import { ArrowRight, FileText, Mail, MapPin, ExternalLink, Camera, RotateCcw } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 
 interface HomePageProps {
@@ -8,6 +8,35 @@ interface HomePageProps {
 }
 
 export const HomePage: React.FC<HomePageProps> = ({ onOpenResume }) => {
+  const [profilePhoto, setProfilePhoto] = useState<string | null>(() => {
+    return localStorage.getItem('priti_custom_photo');
+  });
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const result = event.target?.result as string;
+        if (result) {
+          setProfilePhoto(result);
+          try {
+            localStorage.setItem('priti_custom_photo', result);
+          } catch (err) {
+            console.warn('Storage quota exceeded, displayed in-session:', err);
+          }
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleResetPhoto = () => {
+    setProfilePhoto(null);
+    localStorage.removeItem('priti_custom_photo');
+  };
+
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
       
@@ -18,12 +47,44 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenResume }) => {
         <aside className="md:col-span-4 space-y-6">
           
           {/* Portrait Photo: Public Speaking & Youth Leadership */}
-          <div className="border border-slate-200 bg-slate-50 p-2 shadow-2xs">
+          <div className="border border-slate-200 bg-slate-50 p-2 shadow-2xs group">
             <img
-              src="/assets/images/profile.jpg?v=20260925"
-              alt="Priti Das Dipa - Public Speaking and Youth Leadership"
+              src={profilePhoto || "/assets/images/profile.jpg?v=20260926"}
+              alt="Priti Das Dipa - Scholar & Youth Leader"
               className="w-full h-auto object-cover rounded-none block"
             />
+
+            <input
+              type="file"
+              ref={fileInputRef}
+              accept="image/*"
+              className="hidden"
+              onChange={handlePhotoUpload}
+            />
+
+            <div className="mt-2.5 flex items-center justify-between gap-2 pt-2 border-t border-slate-200 text-xs">
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="inline-flex items-center gap-1.5 text-xs text-slate-700 hover:text-slate-900 font-medium py-1 px-2.5 border border-slate-300 hover:border-slate-400 bg-white rounded-none shadow-2xs transition-colors cursor-pointer"
+                title="Upload a photo directly from your device"
+              >
+                <Camera className="w-3.5 h-3.5 text-slate-600" />
+                <span>Upload Picture</span>
+              </button>
+
+              {profilePhoto && (
+                <button
+                  type="button"
+                  onClick={handleResetPhoto}
+                  className="inline-flex items-center gap-1 text-[11px] text-slate-500 hover:text-rose-600 transition-colors cursor-pointer"
+                  title="Reset to default picture"
+                >
+                  <RotateCcw className="w-3 h-3" />
+                  <span>Reset</span>
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Scholar Identification */}
