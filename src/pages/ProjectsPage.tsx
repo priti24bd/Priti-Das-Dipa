@@ -38,7 +38,7 @@ export const ProjectsPage: React.FC = () => {
         </h1>
 
         <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-2xl">
-          Field telemetry hardware, self-directed behavioral inquiries into adult attachment, community nutrition distribution, and machine learning pipelines developed for public health, environmental resilience, and peer wellbeing.
+          Field telemetry hardware, self-learning inquiry on adult attachment styles, community nutrition distribution, and machine learning pipelines developed for public health, environmental resilience, and peer wellbeing.
         </p>
       </div>
 
@@ -47,13 +47,13 @@ export const ProjectsPage: React.FC = () => {
         <div className="space-y-1.5">
           <div className="inline-flex items-center gap-1.5 text-xs text-emerald-400 font-mono uppercase tracking-wider">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Interactive Self-Research Module</span>
+            <span>Self-Learning Exploration · The "Salt in the Dish"</span>
           </div>
           <h2 className="font-serif-newsreader text-xl sm:text-2xl font-medium text-white">
             What Is Your Relational Attachment Style?
           </h2>
           <p className="text-xs sm:text-sm text-slate-300 max-w-xl leading-relaxed">
-            Take our 12-question empirical psychometric quiz based on John Bowlby &amp; Mary Ainsworth's framework to discover your attachment pattern, how you react in relationships, and personalized suggestions.
+            Attachment style is like the salt in food: even if you bring every other component, without it you cannot savor the dish. Take this 12-question self-quiz to uncover your attachment style, how you react in love, and suggestions.
           </p>
         </div>
 
@@ -71,7 +71,7 @@ export const ProjectsPage: React.FC = () => {
       <div className="flex flex-wrap gap-1 border-b border-slate-200 pb-3">
         {[
           { id: 'all', label: 'All Works' },
-          { id: 'inquiry', label: 'Attachment & Psychological Inquiry' },
+          { id: 'inquiry', label: 'Attachment & Self-Learning' },
           { id: 'climate', label: 'Climate & Hydrology' },
           { id: 'health', label: 'Public Health & Nutrition' },
           { id: 'tech', label: 'Robotics & Automation' },
@@ -154,9 +154,9 @@ export const ProjectsPage: React.FC = () => {
             {/* Detailed Architecture & Methods */}
             <div className="space-y-2 pt-1">
               <h3 className="text-xs uppercase tracking-wider font-semibold text-slate-800">
-                System Methodology &amp; Outcomes
+                {project.id === 'attachment-theory' ? 'What I Discovered' : 'System Methodology & Outcomes'}
               </h3>
-              <ul className="space-y-1.5 text-xs sm:text-sm text-slate-600 list-disc list-inside leading-relaxed font-sans-inter">
+              <ul className="space-y-2 text-xs sm:text-sm text-slate-600 list-disc list-inside leading-relaxed font-sans-inter">
                 {project.details.map((detail, dIdx) => (
                   <li key={dIdx}>{detail}</li>
                 ))}
@@ -165,7 +165,9 @@ export const ProjectsPage: React.FC = () => {
 
             {/* Methods & Tools */}
             <div className="pt-2 text-xs text-slate-500 font-sans-inter">
-              <span className="font-medium text-slate-700">Methods &amp; Domain: </span>
+              <span className="font-medium text-slate-700">
+                {project.id === 'attachment-theory' ? 'Core Reading & Sources: ' : 'Methods & Domain: '}
+              </span>
               {project.technologies.join(' · ')}
             </div>
 
@@ -180,10 +182,10 @@ export const ProjectsPage: React.FC = () => {
                     <HeartHandshake className="w-5 h-5 text-emerald-700" />
                     <div>
                       <h3 className="font-serif-newsreader text-xl font-semibold text-slate-900">
-                        Interactive Attachment Style Assessment
+                        Interactive Attachment Style Self-Quiz
                       </h3>
                       <p className="text-xs text-slate-500">
-                        Take the 12-question quiz below to analyze your relational orientation and get tailored suggestions.
+                        Answer 12 honest questions to discover your attachment style, how you react in love, and suggestions.
                       </p>
                     </div>
                   </div>

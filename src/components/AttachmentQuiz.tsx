@@ -302,7 +302,7 @@ ${result.profile.tagline}
 Key Relational Pattern:
 ${result.profile.howTheyReact[0]}
 
-Assessment based on John Bowlby & Mary Ainsworth's Attachment Theory (Synthesized by Priti Das Dipa's Youth Research Project).`;
+Assessment based on the Book "Attached" and Adult Attachment Theory (Self-learning project by Priti Das Dipa).`;
 
     navigator.clipboard.writeText(text);
     setCopied(true);
@@ -319,13 +319,13 @@ Assessment based on John Bowlby & Mary Ainsworth's Attachment Theory (Synthesize
         <div className="space-y-1">
           <div className="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-slate-300">
             <HeartHandshake className="w-4 h-4 text-emerald-400" />
-            <span>Empirical Psychometric Assessment · ECR Framework</span>
+            <span>Self-Learning Exploration · Inspired by "Attached"</span>
           </div>
           <h2 className="font-serif-newsreader text-2xl sm:text-3xl font-semibold tracking-tight text-white">
             Discover Your Relational Attachment Style
           </h2>
           <p className="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
-            Based on adult attachment research (Bowlby, Ainsworth, Hazan &amp; Shaver). Uncover how your relational nervous system processes closeness, conflict, vulnerability, and reassurance.
+            Attachment is the "salt in the dish"—even with all the other ingredients, without it a relationship cannot thrive. Take this 12-question quiz to uncover your pattern, how you react in love, and suggestions.
           </p>
         </div>
 
@@ -619,18 +619,23 @@ Assessment based on John Bowlby & Mary Ainsworth's Attachment Theory (Synthesize
 
             </div>
 
-            {/* Practical Scholar Summary Note */}
-            <div className="p-4 sm:p-5 bg-slate-900 text-white rounded space-y-2">
+            {/* Personal Perspective: The 'Salt in the Food' Philosophy */}
+            <div className="p-5 sm:p-6 bg-slate-900 text-white rounded space-y-3">
               <div className="flex items-center gap-2 text-xs text-emerald-400 font-mono">
-                <BookOpen className="w-4 h-4" />
-                <span>Scholar Synthesis · Priti Das Dipa's Youth Organizing Research</span>
+                <HeartHandshake className="w-4 h-4" />
+                <span>Personal Note · The "Salt in the Dish" Philosophy</span>
               </div>
-              <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-200 leading-relaxed italic">
                 "{result.profile.relationalAdvice}"
               </p>
-              <p className="text-[11px] text-slate-400 pt-1 border-t border-slate-800">
-                In non-profit organizing at NOVA Nourish Foundation, recognizing team members' attachment patterns transforms friction into collaboration. Insecure attachment is not a character flaw; it is an intelligent adaptive defense from one's developmental history that can transition into <em>Earned Security</em> through consistent relational safety.
-              </p>
+              <div className="text-xs text-slate-300 space-y-2 pt-2 border-t border-slate-800 leading-relaxed">
+                <p>
+                  <strong>Why I explored this:</strong> When I first met a boy and fell for him, I wanted to invest in the right person with clarity and understanding. I searched for books, discovered <em>Attached</em> by Dr. Amir Levine and Rachel Heller, and researched deeply into human attachment. It completely changed how I perceive love, communication, and conflict.
+                </p>
+                <p>
+                  I strongly believe attachment style is like cooking food: <em>if you cook a dish and don't add salt, you cannot eat it even if you added every other component</em>. In a relationship, attachment awareness is that essential salt. That doesn't mean attachment alone is everything—we still need shared values, mutual respect, genuine effort, and trust—but without understanding attachment, so many people struggle simply because they aren't aware of it.
+                </p>
+              </div>
             </div>
 
             {/* Actions Bar */}

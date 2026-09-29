@@ -66,7 +66,7 @@ export const PORTFOLIO_DATA = {
   profile: {
     name: "Priti Das Dipa",
     shortName: "Dipa",
-    roleSubtitle: "Student Researcher & Community Organizer",
+    roleSubtitle: "Self-Learner & Youth Leader",
     applicantStatus: "Undergraduate Applicant, Fall 2027",
     title: "Community Leader, Independent Researcher & Social Innovator",
     location: "Dhaka & Bagerhat, Bangladesh",
@@ -141,27 +141,27 @@ export const PORTFOLIO_DATA = {
   projects: [
     {
       id: "attachment-theory",
-      title: "Adult Attachment Theory & Relational Dynamics in Youth Organizing",
+      title: "Self-Learning Inquiry: Adult Attachment Styles & Relationships",
       category: "inquiry",
-      categoryLabel: "Psychological Inquiry & Relational Systems",
-      year: "2024 – Present",
-      tagline: "An empirical inquiry into how attachment styles shape interpersonal trust, vulnerability, and team cohesion in volunteer organizations.",
-      organization: "Independent Psychological Inquiry · Grounded in Bowlby & Ainsworth",
+      categoryLabel: "Self-Directed Inquiry & Relational Psychology",
+      year: "Personal Inquiry",
+      tagline: "Attachment style is like the salt in a dish: even if you bring all the best ingredients to a relationship, without understanding attachment, you cannot savor the bond.",
+      organization: "Self-Directed Learning · Inspired by 'Attached'",
       summary:
-        "Synthesizing classical attachment theory (John Bowlby, Mary Ainsworth, and Hazan & Shaver) with observational fieldwork across 120+ adolescent volunteers at the NOVA Nourish Foundation. Explores how internalized relational schema influence conflict resolution, task delegation, and emotional safety under high-stress community activism.",
+        "When I first met someone and fell for him, I wanted to be intentional and invest in the right person. I searched for answers, read the book 'Attached' (by Dr. Amir Levine and Rachel Heller), and immersed myself in self-research. It transformed how I view human relationships. While attachment isn't everything—we still need shared values, respect, and mutual effort—it is like the salt when you cook: if you forget it, the dish cannot be enjoyed, yet so many people remain unaware of it.",
       impactMetrics: [
-        { label: "Youth Observed", value: "120+ Volunteers" },
-        { label: "Nations Represented", value: "15 Countries" },
-        { label: "Theoretical Base", value: "ECR Dimensional Model" },
-        { label: "Applied Focus", value: "Team Safety & Conflict" },
+        { label: "Core Discovery", value: "The 'Salt in the Dish'" },
+        { label: "Inspired By", value: "Book 'Attached'" },
+        { label: "Shift in Perspective", value: "Nervous System vs Blame" },
+        { label: "Ultimate Goal", value: "Intentional, Secure Love" },
       ],
       details: [
-        "Synthesized the two orthogonal dimensions of adult attachment (Attachment Anxiety vs. Attachment Avoidance) to understand adolescent volunteer retention and emotional burnout.",
-        "Observed that youth with high Attachment Anxiety frequently sought constant peer reassurance and struggled with ambiguous task directives, while youth with high Attachment Avoidance resisted emotional debriefs and suppressed signs of stress until sudden disengagement.",
-        "Engineered 'Secure Base Leadership' protocols at NOVA Nourish Foundation, combining structured clarity (soothing attachment anxiety) with autonomy-respecting check-ins (respecting avoidant boundaries), which increased project completion rates.",
-        "Created an interactive psychometric assessment tool based on the Experiences in Close Relationships (ECR) framework to help peers and collaborators understand their personal relational tendencies."
+        "The 'Salt in the Dish' Discovery: You can bring every good ingredient to cook a meal, but if you don't add salt, no one can eat it. In relationships, attachment awareness is that essential salt—without it, even deep love and genuine intentions can end up hurting both people.",
+        "People React to Their Triggers, Not the Person: When someone pulls away or gets anxious over delayed texts, they aren't trying to hurt you; their emotional nervous system is frantically trying to protect itself. Understanding this eliminates confusion and unnecessary heartbreak.",
+        "Attachment Isn't Everything, But Ignorance of It Costs Everything: Understanding attachment style does not replace respect, shared values, and mutual effort. But being unaware of it makes people misinterpret normal coping defenses as a 'lack of love.'",
+        "Security Is Learned, Not Fixed: Knowing your attachment style isn't an excuse to stay stuck. It gives you the power to recognize your own patterns, stop expecting mind-reading, and communicate your needs openly."
       ],
-      technologies: ["Adult Attachment Theory", "Developmental Psychology", "Psychometrics (ECR Model)", "Qualitative Team Observation", "Conflict Resolution", "Relational Health"],
+      technologies: ["Book 'Attached' (Dr. Amir Levine & Rachel Heller)", "Self-Reflection & Self-Learning", "Relational Awareness", "Clear Communication"],
     },
     {
       id: "flood",
@@ -337,11 +337,11 @@ export const PORTFOLIO_DATA = {
     },
     {
       id: "photo-2",
-      title: "Youth Leadership & Capacity Enhancement",
-      caption: "Conducting capacity enhancement workshop for youth-led organizations in Khulna Division.",
-      tag: "Leadership",
-      url: "/assets/images/youth_leadership.jpg",
-      aspect: "portrait",
+      title: "Youth Training Session on Gender Equality & Advocacy",
+      caption: "Focal trainer for local youths aged 14–28 in Mollahat Upazila under Bagerhat district (April 2025) on gender equality, equity, lobbying, and advocacy.",
+      tag: "Youth Leadership",
+      url: "/assets/images/6.jpg",
+      aspect: "landscape",
     },
   ] as GalleryPhoto[],
 };

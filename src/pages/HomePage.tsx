@@ -144,19 +144,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenResume }) => {
             </p>
           </div>
 
-          {/* Core Areas of Inquiry */}
-          <div className="space-y-2">
-            <h2 className="text-xs uppercase tracking-wider font-semibold text-slate-900">
-              Areas of Intellectual Inquiry
-            </h2>
-            <ul className="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
-              <li>Community Health &amp; Micronutrient Policy</li>
-              <li>Human Attachment Theory &amp; Group Dynamics</li>
-              <li>Low-Cost Environmental Sensor Engineering</li>
-              <li>Applied Machine Learning for Social Good</li>
-              <li>Youth Leadership &amp; Community Organizing</li>
-            </ul>
-          </div>
 
         </aside>
 
@@ -170,27 +157,27 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenResume }) => {
 
             <div className="space-y-4 text-slate-800 leading-relaxed text-base font-normal">
               <p>
-                I am a student researcher, community organizer, and aspiring undergraduate scholar from southwestern coastal Bangladesh. Growing up in a region frequently challenged by river flooding and seasonal salinity, I learned early that lasting change begins with quiet observation, empathy, and consistent personal responsibility toward one's neighbours.
+                I am a self-learner, youth leader, and an aspiring undergraduate scholar from Bangladesh. Growing up in a place that often faces river flooding and seasonal saltiness I learned early that true change starts with observation, empathy and steady personal responsibility toward neighbours. I feel proud of the lessons that shaped my view of community care.
               </p>
 
               <p>
-                As Founder and Executive Director of the <strong>NOVA Nourish Foundation (NNF)</strong>, I lead grassroots health and nutrition initiatives focused on adolescent girls and underserved families. What began as small classroom conversations in rural schools has grown into an international youth movement with over <strong>120 dedicated volunteers across 15 countries</strong>. Through hands-on workshops across <strong>5+ secondary schools</strong>, we have reached more than <strong>2,000 individuals</strong> with practical dietary education, adolescent hygiene guidance, and peer health ambassador training. Supported by the <strong>Global Alliance for Improved Nutrition (GAIN)</strong>, I initiated the <em>Hanging Nutrition Bag Initiative</em>, one of 16 youth projects funded nationally, to protect essential micronutrient supplies from household dampness and pests in flood-prone homes.
+                As Founder and Executive Director of the NOVA Nourish Foundation I lead health and nutrition programs for girls and families that do not have enough resources. What started as classroom talks in schools has grown into an international youth movement with more than 120 volunteers in 15 countries. Through hands-on workshops in than five secondary schools we have reached over 2,000 people with useful food education, guidance on adolescent hygiene and training for peer health ambassadors. Supported by the Global Alliance for Improved Nutrition I launched the Hanging Nutrition Bag Initiative, one of 16 youth projects funded across the country to keep micronutrient supplies dry and safe from pests in homes that're prone to flooding. I feel proud to see the impact of the NOVA Nourish Foundation across borders.
               </p>
 
               <p>
-                My curiosity extends deeply into empirical problem-solving and technology. As a Machine Learning Intern at <strong>FlyRank AI</strong>, I build data preprocessing pipelines and predictive models, drawing on computational principles from <strong>Harvard University's CS50AI</strong> (CS50's Introduction to Artificial Intelligence with Python). During the imaGen Ventures Youth Challenge backed by the U.S. Embassy Dhaka and UNICEF, I worked with a team to design an IoT ultrasonic hydrology sensor and drone alert prototype, ranking in the <strong>Top 4 out of 135 competitive teams</strong>.
+                My curiosity goes into solving problems with science and technology. As a Machine Learning Intern at FlyRank AI I build data preparation steps and predictive models using ideas from Harvard University’s CS50AI course. In the imaGen Ventures Youth Challenge, supported by the U.S. Embassy in Dhaka and UNICEF I joined a team that designed a water-level sensor and a drone alert prototype. We finished in the four out of 135 teams. I feel excited when my work with FlyRank AI turns data into tools.
               </p>
 
               <p>
-                Alongside engineering and public health, I have pursued independent, self-directed research into <strong>human attachment styles and interpersonal relationships</strong>. Fascinated by John Bowlby and Mary Ainsworth's work, I explored how early relational patterns shape emotional safety, trust, and conflict resolution within adolescent volunteer teams. This curiosity-driven inquiry has fundamentally shaped how I listen, lead, and foster mutual respect among young organizers.
+                Besides engineering and public health I have done research into human attachment styles. How people relate to each other. Inspired by the work of John Bowlby and Mary Ainsworth I studied how early relationships affect safety, trust and how conflicts are solved in teams of volunteers. This inquiry has deeply influenced how I listen, lead and build respect among organizers. I feel that understanding attachment helps me connect better with the community.
               </p>
 
               <p>
-                In 2026, I was selected as an invited youth participant to contribute to the <strong>70th Session of the United Nations Commission on the Status of Women (CSW70)</strong> with UN Women, engaging in international discussions on adolescent health and women's empowerment.
+                In 2026 I was chosen as a youth participant to join the Session of the United Nations Commission on the Status of Women with UN Women. I took part in talks about health and women’s empowerment. I feel honored to represent my region at such a forum.
               </p>
 
               <p className="pt-2 text-slate-900 font-medium">
-                I am preparing for undergraduate studies beginning in Fall 2027, eager to immerse myself in an intellectually rigorous, interdisciplinary environment that prizes ethical inquiry and devotion to the common good.
+                I am getting ready, for studies that will start in Fall 2027. I am excited to dive into a learning environment that’s tough mixes subjects and values honest research and care for the common good. I look forward to continuing my journey as a student researcher and community organizer.
               </p>
             </div>
           </section>
