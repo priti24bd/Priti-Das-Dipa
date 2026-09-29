@@ -1,17 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, ExternalLink } from 'lucide-react';
+import { ArrowLeft, HeartHandshake, ChevronDown, ChevronUp, BookOpen, Sparkles } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
+import { AttachmentQuiz } from '../components/AttachmentQuiz';
 
 export const ProjectsPage: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState<'all' | 'climate' | 'health' | 'inquiry' | 'tech'>('all');
+  const [activeCategory, setActiveCategory] = useState<'all' | 'inquiry' | 'climate' | 'health' | 'tech'>('all');
+  const [isQuizExpanded, setIsQuizExpanded] = useState<boolean>(true);
+  const quizSectionRef = useRef<HTMLDivElement>(null);
 
   const filteredProjects = activeCategory === 'all'
     ? PORTFOLIO_DATA.projects
     : PORTFOLIO_DATA.projects.filter(p => p.category === activeCategory);
 
+  const handleScrollToQuiz = () => {
+    setIsQuizExpanded(true);
+    setTimeout(() => {
+      quizSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  };
+
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-10">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-10 font-sans-inter">
       
       {/* Page Header */}
       <div className="space-y-3">
@@ -27,15 +37,41 @@ export const ProjectsPage: React.FC = () => {
           Research &amp; Technical Projects
         </h1>
 
-        <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-sans-inter max-w-2xl">
-          Field telemetry hardware, self-directed behavioral inquiries, community nutrition systems, and machine learning pipelines developed for public health, environmental resilience, and peer wellbeing.
+        <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-2xl">
+          Field telemetry hardware, self-directed behavioral inquiries into adult attachment, community nutrition distribution, and machine learning pipelines developed for public health, environmental resilience, and peer wellbeing.
         </p>
+      </div>
+
+      {/* Featured Research Assessment Banner */}
+      <div className="p-5 sm:p-6 bg-slate-900 text-white rounded border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="space-y-1.5">
+          <div className="inline-flex items-center gap-1.5 text-xs text-emerald-400 font-mono uppercase tracking-wider">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Interactive Self-Research Module</span>
+          </div>
+          <h2 className="font-serif-newsreader text-xl sm:text-2xl font-medium text-white">
+            What Is Your Relational Attachment Style?
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-300 max-w-xl leading-relaxed">
+            Take our 12-question empirical psychometric quiz based on John Bowlby &amp; Mary Ainsworth's framework to discover your attachment pattern, how you react in relationships, and personalized suggestions.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={handleScrollToQuiz}
+          className="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded shadow-xs transition-colors cursor-pointer shrink-0"
+        >
+          <HeartHandshake className="w-4 h-4" />
+          <span>Take the Attachment Quiz</span>
+        </button>
       </div>
 
       {/* Filter Tabs */}
       <div className="flex flex-wrap gap-1 border-b border-slate-200 pb-3">
         {[
           { id: 'all', label: 'All Works' },
+          { id: 'inquiry', label: 'Attachment & Psychological Inquiry' },
           { id: 'climate', label: 'Climate & Hydrology' },
           { id: 'health', label: 'Public Health & Nutrition' },
           { id: 'tech', label: 'Robotics & Automation' },
@@ -59,7 +95,7 @@ export const ProjectsPage: React.FC = () => {
         {filteredProjects.map((project) => (
           <article
             key={project.id}
-            className="p-6 sm:p-8 border border-slate-200 bg-white space-y-5"
+            className="p-6 sm:p-8 border border-slate-200 bg-white space-y-6"
           >
             {/* Header */}
             <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-slate-100 pb-3">
@@ -132,6 +168,48 @@ export const ProjectsPage: React.FC = () => {
               <span className="font-medium text-slate-700">Methods &amp; Domain: </span>
               {project.technologies.join(' · ')}
             </div>
+
+            {/* Interactive Assessment Section inside Attachment Theory Card */}
+            {project.id === 'attachment-theory' && (
+              <div 
+                ref={quizSectionRef} 
+                className="pt-6 border-t border-slate-200 space-y-4"
+              >
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex items-center gap-2">
+                    <HeartHandshake className="w-5 h-5 text-emerald-700" />
+                    <div>
+                      <h3 className="font-serif-newsreader text-xl font-semibold text-slate-900">
+                        Interactive Attachment Style Assessment
+                      </h3>
+                      <p className="text-xs text-slate-500">
+                        Take the 12-question quiz below to analyze your relational orientation and get tailored suggestions.
+                      </p>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setIsQuizExpanded(!isQuizExpanded)}
+                    className="inline-flex items-center gap-1.5 text-xs font-medium py-1.5 px-3 border border-slate-300 hover:border-slate-800 text-slate-800 rounded transition-colors cursor-pointer"
+                  >
+                    <span>{isQuizExpanded ? 'Collapse Quiz' : 'Expand Assessment'}</span>
+                    {isQuizExpanded ? (
+                      <ChevronUp className="w-3.5 h-3.5" />
+                    ) : (
+                      <ChevronDown className="w-3.5 h-3.5" />
+                    )}
+                  </button>
+                </div>
+
+                {/* Render the Quiz Component */}
+                {isQuizExpanded && (
+                  <div className="mt-4 pt-2">
+                    <AttachmentQuiz />
+                  </div>
+                )}
+              </div>
+            )}
 
           </article>
         ))}

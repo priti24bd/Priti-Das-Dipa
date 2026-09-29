@@ -140,6 +140,30 @@ export const PORTFOLIO_DATA = {
 
   projects: [
     {
+      id: "attachment-theory",
+      title: "Adult Attachment Theory & Relational Dynamics in Youth Organizing",
+      category: "inquiry",
+      categoryLabel: "Psychological Inquiry & Relational Systems",
+      year: "2024 – Present",
+      tagline: "An empirical inquiry into how attachment styles shape interpersonal trust, vulnerability, and team cohesion in volunteer organizations.",
+      organization: "Independent Psychological Inquiry · Grounded in Bowlby & Ainsworth",
+      summary:
+        "Synthesizing classical attachment theory (John Bowlby, Mary Ainsworth, and Hazan & Shaver) with observational fieldwork across 120+ adolescent volunteers at the NOVA Nourish Foundation. Explores how internalized relational schema influence conflict resolution, task delegation, and emotional safety under high-stress community activism.",
+      impactMetrics: [
+        { label: "Youth Observed", value: "120+ Volunteers" },
+        { label: "Nations Represented", value: "15 Countries" },
+        { label: "Theoretical Base", value: "ECR Dimensional Model" },
+        { label: "Applied Focus", value: "Team Safety & Conflict" },
+      ],
+      details: [
+        "Synthesized the two orthogonal dimensions of adult attachment (Attachment Anxiety vs. Attachment Avoidance) to understand adolescent volunteer retention and emotional burnout.",
+        "Observed that youth with high Attachment Anxiety frequently sought constant peer reassurance and struggled with ambiguous task directives, while youth with high Attachment Avoidance resisted emotional debriefs and suppressed signs of stress until sudden disengagement.",
+        "Engineered 'Secure Base Leadership' protocols at NOVA Nourish Foundation, combining structured clarity (soothing attachment anxiety) with autonomy-respecting check-ins (respecting avoidant boundaries), which increased project completion rates.",
+        "Created an interactive psychometric assessment tool based on the Experiences in Close Relationships (ECR) framework to help peers and collaborators understand their personal relational tendencies."
+      ],
+      technologies: ["Adult Attachment Theory", "Developmental Psychology", "Psychometrics (ECR Model)", "Qualitative Team Observation", "Conflict Resolution", "Relational Health"],
+    },
+    {
       id: "flood",
       title: "Smart Flood Management System",
       category: "climate",
