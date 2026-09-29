@@ -7,7 +7,6 @@ import React, { useState, useEffect } from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import { ScrollToTop } from './components/ScrollToTop';
 import { Navbar } from './components/Navbar';
-import { Footer } from './components/Footer';
 import { ResumeModal } from './components/ResumeModal';
 import { HomePage } from './pages/HomePage';
 import { LeadershipPage } from './pages/LeadershipPage';
@@ -86,11 +85,6 @@ export default function App() {
             />
           </Routes>
         </main>
-
-        {/* Clean Footer */}
-        <Footer
-          onOpenResume={() => setIsResumeOpen(true)}
-        />
 
         {/* Clean Academic / Printable Résumé Modal */}
         <ResumeModal
