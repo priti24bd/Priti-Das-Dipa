@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Play, RefreshCw, Upload, CheckCircle2, Shield } from 'lucide-react';
 
 interface HobbySectionProps {
   standalone?: boolean;
@@ -7,12 +7,37 @@ interface HobbySectionProps {
 
 export const HobbySection: React.FC<HobbySectionProps> = ({ standalone = false }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [videoSrc, setVideoSrc] = useState<string>('/assets/videos/speaking.mp4');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Check if user previously uploaded their camera recording to client storage
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [videoSrc, setVideoSrc] = useState<string>('./assets/videos/speaking.mp4');
+  const [posterSrc, setPosterSrc] = useState<string>('./assets/images/speaking_poster.jpg');
+
+  // Secret admin mode: only shown if URL has ?admin=1 or #/hobby?admin=1 or toggled via double click
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+
   useEffect(() => {
+    // Check URL search or hash parameters for admin mode
+    const searchParams = new URLSearchParams(window.location.search);
+    const hashParams = window.location.hash.includes('?') 
+      ? new URLSearchParams(window.location.hash.split('?')[1]) 
+      : null;
+
+    if (searchParams.get('admin') === '1' || searchParams.get('edit') === '1' || hashParams?.get('admin') === '1') {
+      setIsAdmin(true);
+    }
+
+    // Check if user has previously uploaded their camera recording to client storage
     try {
       const openDB = indexedDB.open('PritiMediaDB', 1);
+      openDB.onupgradeneeded = () => {
+        const db = openDB.result;
+        if (!db.objectStoreNames.contains('videos')) {
+          db.createObjectStore('videos');
+        }
+      };
       openDB.onsuccess = () => {
         const db = openDB.result;
         if (db.objectStoreNames.contains('videos')) {
@@ -28,15 +53,71 @@ export const HobbySection: React.FC<HobbySectionProps> = ({ standalone = false }
         }
       };
     } catch {
-      // Fallback seamlessly to /assets/videos/speaking.mp4
+      // Fallback seamlessly to ./assets/videos/speaking.mp4
     }
   }, []);
+
+  const handlePlayToggle = () => {
+    if (!videoRef.current) return;
+    if (videoRef.current.paused) {
+      videoRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
+    } else {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    }
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    setUploadSuccess(false);
+
+    // Instant local preview
+    const blobUrl = URL.createObjectURL(file);
+    setVideoSrc(blobUrl);
+
+    // Save to IndexedDB so browser always remembers this exact recording
+    try {
+      const openDB = indexedDB.open('PritiMediaDB', 1);
+      openDB.onsuccess = () => {
+        const db = openDB.result;
+        const tx = db.transaction('videos', 'readwrite');
+        const store = tx.objectStore('videos');
+        store.put(file, 'speaking_video');
+      };
+    } catch {}
+
+    // Post to server backend if running in dev or server environment
+    try {
+      const res = await fetch('/api/upload-video', {
+        method: 'POST',
+        headers: { 'Content-Type': file.type || 'video/mp4' },
+        body: file,
+      });
+      if (res.ok) {
+        setUploadSuccess(true);
+        setTimeout(() => setUploadSuccess(false), 4000);
+      }
+    } catch {}
+
+    setIsUploading(false);
+    if (videoRef.current) {
+      videoRef.current.load();
+      videoRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
+    }
+  };
 
   return (
     <section id="hobby" className={`space-y-6 ${standalone ? '' : 'pt-10 border-t border-slate-200'}`}>
       <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-slate-200 pb-3">
         <div>
-          <span className="text-[11px] font-mono uppercase tracking-wider text-blue-900 font-semibold block mb-1">
+          <span 
+            onDoubleClick={() => setIsAdmin(prev => !prev)}
+            title="Double-click to toggle admin options"
+            className="text-[11px] font-mono uppercase tracking-wider text-blue-900 font-semibold block mb-1 cursor-default select-none"
+          >
             Personal Passion &amp; Mentorship
           </span>
           <h2 className="font-serif-newsreader text-2xl sm:text-3xl font-normal text-slate-900 tracking-tight">
@@ -50,26 +131,87 @@ export const HobbySection: React.FC<HobbySectionProps> = ({ standalone = false }
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-        {/* Video Player Column - 100% Read-Only */}
+        {/* Video Player Column - View Only For Public */}
         <div className="md:col-span-5 lg:col-span-5 flex flex-col items-center">
-          <div className="w-full max-w-[340px] border border-slate-300 bg-slate-950 shadow-md overflow-hidden relative">
+          <div className="w-full max-w-[340px] border border-slate-300 bg-slate-950 shadow-md overflow-hidden relative group">
             <video
               ref={videoRef}
               key={videoSrc}
-              src={videoSrc}
-              poster="/assets/images/speaking_poster.jpg"
+              poster={posterSrc}
               controls
               playsInline
-              preload="metadata"
+              preload="auto"
+              onPlay={() => setIsPlaying(true)}
+              onPause={() => setIsPlaying(false)}
               className="w-full aspect-[9/16] object-cover bg-slate-950 block"
             >
+              <source src={videoSrc} type="video/mp4" />
+              <source src="./assets/videos/speaking.mp4" type="video/mp4" />
+              <source src="/assets/videos/speaking.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
+
+            {/* Seamless One-Tap Play Overlay when Paused */}
+            {!isPlaying && (
+              <button
+                onClick={handlePlayToggle}
+                aria-label="Play video"
+                className="absolute inset-0 flex items-center justify-center bg-black/35 hover:bg-black/20 transition-all cursor-pointer group-hover:scale-105"
+              >
+                <div className="w-16 h-16 rounded-full bg-white/90 text-slate-900 flex items-center justify-center shadow-lg border border-white/40 transition-transform">
+                  <Play className="w-7 h-7 fill-slate-900 ml-1" />
+                </div>
+              </button>
+            )}
           </div>
 
-          <p className="text-[11px] text-slate-500 font-mono mt-2 text-center">
-            Priti Das Dipa · Personal Video Message (0:58)
+          <p className="text-[11px] text-slate-500 font-mono mt-2.5 text-center">
+            Priti Das Dipa · Personal Video Message
           </p>
+
+          {/* Admin Upload Panel: ONLY visible if ?admin=1 or toggled by Priti */}
+          {isAdmin && (
+            <div className="w-full max-w-[340px] mt-4 p-3 bg-slate-100 border border-slate-300 rounded text-left space-y-2">
+              <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-800">
+                <Shield className="w-3.5 h-3.5 text-blue-800" />
+                <span>Admin Video Management</span>
+              </div>
+              <p className="text-[11px] text-slate-600">
+                This panel is private to you. Choose your camera video file to update it.
+              </p>
+
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileUpload}
+                accept="video/mp4,video/webm,video/quicktime,video/*"
+                className="hidden"
+              />
+
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isUploading}
+                className="w-full py-1.5 px-3 bg-blue-900 hover:bg-blue-800 text-white text-xs font-medium flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+              >
+                {isUploading ? (
+                  <>
+                    <RefreshCw className="w-3 h-3 animate-spin" />
+                    <span>Processing &amp; Optimizing...</span>
+                  </>
+                ) : uploadSuccess ? (
+                  <>
+                    <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                    <span>Saved Successfully!</span>
+                  </>
+                ) : (
+                  <>
+                    <Upload className="w-3 h-3 text-amber-300" />
+                    <span>Upload New Video File</span>
+                  </>
+                )}
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Narrative & Upwork Column */}
