@@ -22,6 +22,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     { label: 'Leadership & Impact', path: '/leadership' },
     { label: 'Education & Honors', path: '/about' },
     { label: 'Personal Statement', path: '/story' },
+    { label: 'Hobby', path: '/hobby' },
     { label: 'Contact', path: '/contact' },
   ];
 

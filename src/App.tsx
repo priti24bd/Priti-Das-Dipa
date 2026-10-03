@@ -14,6 +14,7 @@ import { ProjectsPage } from './pages/ProjectsPage';
 import { StoryPage } from './pages/StoryPage';
 import { AboutPage } from './pages/AboutPage';
 import { ContactPage } from './pages/ContactPage';
+import { HobbyPage } from './pages/HobbyPage';
 
 export default function App() {
   const [darkMode, setDarkMode] = useState<boolean>(() => {
@@ -70,6 +71,10 @@ export default function App() {
             <Route
               path="/story"
               element={<StoryPage />}
+            />
+            <Route
+              path="/hobby"
+              element={<HobbyPage />}
             />
             <Route
               path="/about"

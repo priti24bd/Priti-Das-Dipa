@@ -1,31 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, ExternalLink, Upload } from 'lucide-react';
+import { ArrowLeft, ExternalLink } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 
 export const LeadershipPage: React.FC = () => {
-  const [trainingPhoto, setTrainingPhoto] = useState<string>(() => {
-    return localStorage.getItem('priti_training_photo') || '/assets/images/6.jpg?v=20260929-v3';
-  });
-
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const result = event.target?.result as string;
-        if (result) {
-          setTrainingPhoto(result);
-          try {
-            localStorage.setItem('priti_training_photo', result);
-          } catch {
-            // ignore quota error
-          }
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-  };
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-12">
       
@@ -149,7 +127,7 @@ export const LeadershipPage: React.FC = () => {
         {/* Workshop Facilitation Photo */}
         <figure className="border border-slate-200 bg-slate-50 overflow-hidden shadow-2xs">
           <img
-            src={trainingPhoto}
+            src="/assets/images/6.jpg"
             alt="Priti Das Dipa as focal trainer with local youth in Mollahat Upazila, Bagerhat"
             className="w-full h-auto object-cover max-h-[500px]"
           />
@@ -158,21 +136,9 @@ export const LeadershipPage: React.FC = () => {
               <span className="font-semibold text-slate-900 text-sm sm:text-base font-serif-newsreader">
                 Youth Training Session · Focal Trainer
               </span>
-              <div className="flex items-center gap-3">
-                <span className="text-xs text-slate-500 font-mono">
-                  April 2025 · Mollahat Upazila, Bagerhat District
-                </span>
-                <label className="cursor-pointer inline-flex items-center gap-1 text-[11px] font-mono text-slate-500 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 px-2 py-0.5 border border-slate-200 transition-colors">
-                  <Upload className="w-3 h-3" />
-                  <span>Replace Photo (6.jpg)</span>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handlePhotoUpload}
-                    className="hidden"
-                  />
-                </label>
-              </div>
+              <span className="text-xs text-slate-500 font-mono">
+                April 2025 · Mollahat Upazila, Bagerhat District
+              </span>
             </div>
             <p className="text-slate-600 leading-relaxed text-xs sm:text-sm">
               It was a training session with local youths aged 14–28, where I was the focal trainer in Mollahat Upazila under Bagerhat district in April 2025, facilitating sessions on the topics of gender equality, equity, lobbying, and advocacy.
