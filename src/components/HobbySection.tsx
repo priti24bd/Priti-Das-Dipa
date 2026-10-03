@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Sparkles, Play, RefreshCw, Upload, CheckCircle2, Shield } from 'lucide-react';
+import { Sparkles, Play, RefreshCw, Upload, CheckCircle2, Shield, Cloud } from 'lucide-react';
 
 interface HobbySectionProps {
   standalone?: boolean;
@@ -11,25 +11,28 @@ export const HobbySection: React.FC<HobbySectionProps> = ({ standalone = false }
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [videoSrc, setVideoSrc] = useState<string>('./assets/videos/speaking.mp4');
-  const [posterSrc, setPosterSrc] = useState<string>('./assets/images/speaking_poster.jpg');
+  const [isCloudSynced, setIsCloudSynced] = useState(false);
 
-  // Secret admin mode: only shown if URL has ?admin=1 or #/hobby?admin=1 or toggled via double click
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
-  const [uploadSuccess, setUploadSuccess] = useState(false);
-
-  useEffect(() => {
-    // Check URL search or hash parameters for admin mode
+  // Admin controls: visible in AI Studio Dev mode OR when ?admin=1 is used
+  const [isAdmin, setIsAdmin] = useState(() => {
+    if (typeof window === 'undefined') return false;
     const searchParams = new URLSearchParams(window.location.search);
     const hashParams = window.location.hash.includes('?') 
       ? new URLSearchParams(window.location.hash.split('?')[1]) 
       : null;
+    return Boolean(
+      import.meta.env.DEV ||
+      searchParams.get('admin') === '1' || 
+      searchParams.get('edit') === '1' || 
+      hashParams?.get('admin') === '1'
+    );
+  });
 
-    if (searchParams.get('admin') === '1' || searchParams.get('edit') === '1' || hashParams?.get('admin') === '1') {
-      setIsAdmin(true);
-    }
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
 
-    // Check if user has previously uploaded their camera recording to client storage
+  // 1. Auto-detect video stored in user's browser IndexedDB and automatically sync it to the project files
+  useEffect(() => {
     try {
       const openDB = indexedDB.open('PritiMediaDB', 1);
       openDB.onupgradeneeded = () => {
@@ -48,6 +51,20 @@ export const HobbySection: React.FC<HobbySectionProps> = ({ standalone = false }
             if (req.result && req.result instanceof Blob) {
               const blobUrl = URL.createObjectURL(req.result);
               setVideoSrc(blobUrl);
+
+              // If in preview/dev mode, automatically upload to server so it is baked into cloud deployments!
+              if (import.meta.env.DEV) {
+                fetch('/api/upload-video', {
+                  method: 'POST',
+                  headers: { 'Content-Type': req.result.type || 'video/mp4' },
+                  body: req.result,
+                })
+                  .then(r => r.json())
+                  .then(() => {
+                    setIsCloudSynced(true);
+                  })
+                  .catch(() => {});
+              }
             }
           };
         }
@@ -60,25 +77,29 @@ export const HobbySection: React.FC<HobbySectionProps> = ({ standalone = false }
   const handlePlayToggle = () => {
     if (!videoRef.current) return;
     if (videoRef.current.paused) {
-      videoRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
+      videoRef.current.play()
+        .then(() => setIsPlaying(true))
+        .catch(() => {
+          // If browser requires unmuted play or retry
+          if (videoRef.current) {
+            videoRef.current.controls = true;
+          }
+        });
     } else {
       videoRef.current.pause();
       setIsPlaying(false);
     }
   };
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
+  const syncBlobToServer = async (file: Blob) => {
     setIsUploading(true);
     setUploadSuccess(false);
 
-    // Instant local preview
+    // 1. Instant local preview
     const blobUrl = URL.createObjectURL(file);
     setVideoSrc(blobUrl);
 
-    // Save to IndexedDB so browser always remembers this exact recording
+    // 2. Save to browser IndexedDB
     try {
       const openDB = indexedDB.open('PritiMediaDB', 1);
       openDB.onsuccess = () => {
@@ -89,7 +110,7 @@ export const HobbySection: React.FC<HobbySectionProps> = ({ standalone = false }
       };
     } catch {}
 
-    // Post to server backend if running in dev or server environment
+    // 3. Post to backend to permanently save into public/assets/videos/speaking.mp4
     try {
       const res = await fetch('/api/upload-video', {
         method: 'POST',
@@ -98,6 +119,7 @@ export const HobbySection: React.FC<HobbySectionProps> = ({ standalone = false }
       });
       if (res.ok) {
         setUploadSuccess(true);
+        setIsCloudSynced(true);
         setTimeout(() => setUploadSuccess(false), 4000);
       }
     } catch {}
@@ -109,13 +131,20 @@ export const HobbySection: React.FC<HobbySectionProps> = ({ standalone = false }
     }
   };
 
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      syncBlobToServer(file);
+    }
+  };
+
   return (
     <section id="hobby" className={`space-y-6 ${standalone ? '' : 'pt-10 border-t border-slate-200'}`}>
       <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-slate-200 pb-3">
         <div>
           <span 
             onDoubleClick={() => setIsAdmin(prev => !prev)}
-            title="Double-click to toggle admin options"
+            title="Double-click to toggle admin controls"
             className="text-[11px] font-mono uppercase tracking-wider text-blue-900 font-semibold block mb-1 cursor-default select-none"
           >
             Personal Passion &amp; Mentorship
@@ -131,13 +160,13 @@ export const HobbySection: React.FC<HobbySectionProps> = ({ standalone = false }
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-        {/* Video Player Column - View Only For Public */}
+        {/* Video Player Column */}
         <div className="md:col-span-5 lg:col-span-5 flex flex-col items-center">
           <div className="w-full max-w-[340px] border border-slate-300 bg-slate-950 shadow-md overflow-hidden relative group">
             <video
               ref={videoRef}
               key={videoSrc}
-              poster={posterSrc}
+              poster="./assets/images/speaking_poster.jpg"
               controls
               playsInline
               preload="auto"
@@ -156,10 +185,10 @@ export const HobbySection: React.FC<HobbySectionProps> = ({ standalone = false }
               <button
                 onClick={handlePlayToggle}
                 aria-label="Play video"
-                className="absolute inset-0 flex items-center justify-center bg-black/35 hover:bg-black/20 transition-all cursor-pointer group-hover:scale-105"
+                className="absolute inset-0 flex items-center justify-center bg-black/40 hover:bg-black/25 transition-all cursor-pointer group-hover:scale-105"
               >
-                <div className="w-16 h-16 rounded-full bg-white/90 text-slate-900 flex items-center justify-center shadow-lg border border-white/40 transition-transform">
-                  <Play className="w-7 h-7 fill-slate-900 ml-1" />
+                <div className="w-16 h-16 rounded-full bg-white/90 text-slate-900 flex items-center justify-center shadow-xl border border-white/50 transition-transform">
+                  <Play className="w-7 h-7 fill-slate-900 ml-1 text-slate-900" />
                 </div>
               </button>
             )}
@@ -169,15 +198,30 @@ export const HobbySection: React.FC<HobbySectionProps> = ({ standalone = false }
             Priti Das Dipa · Personal Video Message
           </p>
 
-          {/* Admin Upload Panel: ONLY visible if ?admin=1 or toggled by Priti */}
+          {/* Sync indicator for Priti in preview */}
+          {isCloudSynced && import.meta.env.DEV && (
+            <div className="mt-2 inline-flex items-center gap-1 text-[11px] text-emerald-700 font-mono bg-emerald-50 px-2 py-0.5 border border-emerald-200">
+              <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+              <span>Video synced to cloud files (Ready to Publish)</span>
+            </div>
+          )}
+
+          {/* Admin Management Panel (Hidden from public visitors in production) */}
           {isAdmin && (
             <div className="w-full max-w-[340px] mt-4 p-3 bg-slate-100 border border-slate-300 rounded text-left space-y-2">
-              <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-800">
-                <Shield className="w-3.5 h-3.5 text-blue-800" />
-                <span>Admin Video Management</span>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-800">
+                  <Shield className="w-3.5 h-3.5 text-blue-800" />
+                  <span>Cloud Video Sync</span>
+                </div>
+                {isCloudSynced && (
+                  <span className="text-[10px] font-mono text-emerald-700 flex items-center gap-1">
+                    <Cloud className="w-3 h-3" /> Synced
+                  </span>
+                )}
               </div>
-              <p className="text-[11px] text-slate-600">
-                This panel is private to you. Choose your camera video file to update it.
+              <p className="text-[11px] text-slate-600 leading-snug">
+                Click below to select your video file. It will permanently save to the server so it opens everywhere when published.
               </p>
 
               <input
@@ -191,22 +235,22 @@ export const HobbySection: React.FC<HobbySectionProps> = ({ standalone = false }
               <button
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isUploading}
-                className="w-full py-1.5 px-3 bg-blue-900 hover:bg-blue-800 text-white text-xs font-medium flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                className="w-full py-2 px-3 bg-blue-900 hover:bg-blue-800 text-white text-xs font-medium flex items-center justify-center gap-1.5 transition-colors cursor-pointer rounded"
               >
                 {isUploading ? (
                   <>
-                    <RefreshCw className="w-3 h-3 animate-spin" />
-                    <span>Processing &amp; Optimizing...</span>
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                    <span>Saving to Server &amp; Optimizing...</span>
                   </>
                 ) : uploadSuccess ? (
                   <>
-                    <CheckCircle2 className="w-3 h-3 text-emerald-400" />
-                    <span>Saved Successfully!</span>
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>Saved to Cloud Server! Click Publish.</span>
                   </>
                 ) : (
                   <>
-                    <Upload className="w-3 h-3 text-amber-300" />
-                    <span>Upload New Video File</span>
+                    <Upload className="w-3.5 h-3.5 text-amber-300" />
+                    <span>Upload &amp; Save Video to Cloud</span>
                   </>
                 )}
               </button>
