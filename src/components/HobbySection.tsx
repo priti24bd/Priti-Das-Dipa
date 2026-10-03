@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Sparkles } from 'lucide-react';
 
 interface HobbySectionProps {
@@ -7,6 +7,30 @@ interface HobbySectionProps {
 
 export const HobbySection: React.FC<HobbySectionProps> = ({ standalone = false }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoSrc, setVideoSrc] = useState<string>('/assets/videos/speaking.mp4');
+
+  // Check if user previously uploaded their camera recording to client storage
+  useEffect(() => {
+    try {
+      const openDB = indexedDB.open('PritiMediaDB', 1);
+      openDB.onsuccess = () => {
+        const db = openDB.result;
+        if (db.objectStoreNames.contains('videos')) {
+          const tx = db.transaction('videos', 'readonly');
+          const store = tx.objectStore('videos');
+          const req = store.get('speaking_video');
+          req.onsuccess = () => {
+            if (req.result && req.result instanceof Blob) {
+              const blobUrl = URL.createObjectURL(req.result);
+              setVideoSrc(blobUrl);
+            }
+          };
+        }
+      };
+    } catch {
+      // Fallback seamlessly to /assets/videos/speaking.mp4
+    }
+  }, []);
 
   return (
     <section id="hobby" className={`space-y-6 ${standalone ? '' : 'pt-10 border-t border-slate-200'}`}>
@@ -26,12 +50,13 @@ export const HobbySection: React.FC<HobbySectionProps> = ({ standalone = false }
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-        {/* Video Player Column - View Only */}
+        {/* Video Player Column - 100% Read-Only */}
         <div className="md:col-span-5 lg:col-span-5 flex flex-col items-center">
           <div className="w-full max-w-[340px] border border-slate-300 bg-slate-950 shadow-md overflow-hidden relative">
             <video
               ref={videoRef}
-              src="/assets/videos/speaking.mp4"
+              key={videoSrc}
+              src={videoSrc}
               poster="/assets/images/speaking_poster.jpg"
               controls
               playsInline
